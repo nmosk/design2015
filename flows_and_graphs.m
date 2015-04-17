@@ -58,9 +58,9 @@ ylabel('recycled eb [kg/hr]')
 set(gca,'FontSize',26)
 
 figure(3)
-plot(xx,flow_eb)
+plot(xx,flow_eb./time)
 xlabel('conversion, x')
-ylabel('Fresh feed EB, [kg/yr]')
+ylabel('Fresh feed EB, [kg/hr]')
 set(gca,'FontSize',26)
 
 figure(4)
@@ -73,6 +73,5 @@ plot(xx,(flow_eb+recycle_eb+flow_steam)./time,'LineWidth',3)
 xlabel('conversion, x')
 ylabel('Feed to reactor [kg/hr]')
 set(gca,'FontSize',26)
-
 
 
