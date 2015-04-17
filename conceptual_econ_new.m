@@ -59,7 +59,7 @@ NPV_0=[]; NPV_proj=[]; NPV_percent=[]; Depreciation=[]; Profit_AT=[];C_F=[];D_CF
         H_E= + MAS/280*101.3*A_c.^0.65 ;% purchasing cost of heat exchanger
 %        sep= (MAS./280)*4.7.*D.^1.55.*H*F_c;
 %        sep=4E6;
-sep=(4.*10.^6./X);
+sep=(5.*10.^6./X);
         PCBE=reac +H_E + sep;
         
         
