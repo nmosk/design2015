@@ -2,17 +2,28 @@
 clear;
 clc;
 close all;
+PFR_latest
 
 global MW_eb MW_st MW_b MW_h MW_en MW_t MW_me P_st n_st time MW_w
 %molecular weights [g/mol]
 
+MW_eb = 106.17;
+MW_st = 104.18;
+MW_b = 78.11;
+MW_h = 2.016;
+MW_en = 28.05;
+MW_t = 92.138;
+MW_me = 16.04;
+time = 8400; % [hrs/yr]
+P_st = 100*10^6; % [kg/yr]
+n_st = P_st/MW_st; % [kmol/yr]
+MW_w = 18; 
 MR = 8;
-load('s_123_X.mat')
 
 xx = [0.01:0.01:0.97]';
 ss = xs_interp(xx,X,s_123);
 
-[flow_eb,flow_h2,flow_t,flow_me,flow_b,flow_en] = flows_func(ss(:,1),ss(:,2));
+[flow_eb,flow_h2,flow_t,flow_me,flow_b,flow_en] = flows(ss(:,1),ss(:,2));
 
 recycle_eb = n_st*MW_eb./ss(:,1).*(1-xx)./xx;
 n_st = n_st*ones(size(recycle_eb));
