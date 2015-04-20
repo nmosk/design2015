@@ -79,12 +79,13 @@ set_x = 75
 format short
 
 inlet_reactor_kg_hr = (flow_eb(set_x)+ recycle_eb(set_x) + flow_steam(set_x))./time
-
 outlet_reactor_kg_hr = flow_out_reactor(set_x)./time
-
 recycle_eb_kg_hr = recycle_eb(set_x)./time
-
-
-
-
+moles_out_reactor_hr = moles_out_reactor(set_x)./time
+mole_frac_eb = y_eb(set_x)
+mole_frac_st = y_st(set_x)
+mole_frac_water = y_w(set_x)
+mole_frac_h2 = y_h(set_x)
+mole_frac_tol = y_t(set_x)
+mole_frac_benz = y_b(set_x)
 
