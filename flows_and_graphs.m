@@ -74,4 +74,17 @@ xlabel('conversion, x')
 ylabel('Feed to reactor [kg/hr]')
 set(gca,'FontSize',26)
 
+set_x = 75
+
+format short
+
+inlet_reactor_kg_hr = (flow_eb(set_x)+ recycle_eb(set_x) + flow_steam(set_x))./time
+
+outlet_reactor_kg_hr = flow_out_reactor(set_x)./time
+
+recycle_eb_kg_hr = recycle_eb(set_x)./time
+
+
+
+
 
