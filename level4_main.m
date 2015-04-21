@@ -70,8 +70,8 @@ end
 % basis of 100% recovery of LK in distillate and 100% recovery of JK in
 % bottoms
 % --------------------
-D = F.*sum((zF-xB)/(zD-xB)); % (eqn 4.6) [mol/hr]
-B = F.*sum((zD-zF)/(zD-xB)); % (eqn 4.7) [mol/hr]
+D = F.*sum((zF-xB)/(xD-xB)); % (eqn 4.6) [mol/hr]
+B = F.*sum((xD-zF)/(xD-xB)); % (eqn 4.7) [mol/hr]
 
 % Checks that D+B = F
 if D+B > 5+F | D+B < F-5
