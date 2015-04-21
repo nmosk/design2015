@@ -170,7 +170,7 @@ if v_B-v_T == (q-1)*F %(eqn 3.39)
 disp('cross check of vB = vT passed!')
 else
     disp('cross check failed')
-    
+end
     
 %              when q = 1, v_B = v_T = V
 V=v_B
