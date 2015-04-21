@@ -1,3 +1,7 @@
+% LEVEL 4: DISTILLATION COLUMN 
+% ------------------------------
+
+
 % MOLECULAR WEIGHTS [g/mol] -----------------------------
 MW_eB = 106.17;
 MW_St = 104.18;
@@ -169,6 +173,14 @@ N_real = 2.*double(N_theory)
 % mu_0 = 10^-3 % [Pa*s] aka (1 centipoise)
 % N_real = N_theory./(exp(-sqrt(alpha*mu/mu_0))*(1-a_param)+a)^-1 % (eqn 6.2)
 % --------------------
+
+%%
+% CALCULATE COST MODEL
+% shortcut for comparison to different split methods 
+% --------------------
+[ costs, cost_check ] = CostModel_func(N_real, V);
+% --------------------
+
 %%
 % CALCULATE VAPOR RATES [mol/hr] IN COLUMN
 % --------------------
@@ -232,6 +244,7 @@ Q_r = lambda_B*v_B % [J/hr]
         A_An_ratio = 0.8; % A_n/A is the fraction of the total area available for flow
         flood_frac = 0.6; % fraction of flooding velocity desired in the design
         
+        R = 8.3145*10^-5;
         rho_l = 901% mass density of liquid
         rho_v = M_v * P / T / R % mass density of vapor
         
@@ -251,21 +264,19 @@ U = 0;
 % and changeT_B is the temperature difference between
 %LMTD = ((TA-tB)-(TB-tA))/log((TA-tB)/(TB-tA));
 
-Thot_in =
-Thot_out =
-Tcold_in =
-Tcold_out =
-
-LMTD = ((Thot_in - Tcold_out)-(Thot_out-Tcold_in))...
-    /log((Thot_in - Tcold_out)/(Thot_out-Tcold_in));
-Q = Q_r+Q_c; % **** is this correct?
-
-A = Q/(U*LMTD); % **** check units of everything
+% Thot_in =
+% Thot_out =
+% Tcold_in =
+% Tcold_out =
+% 
+% LMTD = ((Thot_in - Tcold_out)-(Thot_out-Tcold_in))...
+%     /log((Thot_in - Tcold_out)/(Thot_out-Tcold_in));
+% Q = Q_r+Q_c; % **** is this correct?
+% 
+% A = Q/(U*LMTD); % **** check units of everything
 % --------------------
 
 
 % ********** need to
-%       1) write function to calculate molar weights and rhos of liquids
-%       and vapors
-%       2) how to calculate N_theory -- needs alpha and mu
-%       3) need z_F, z_B, z_D, molar compositions of feed
+%       1) T hot and T cold
+%       2) change U
