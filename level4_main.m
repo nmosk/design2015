@@ -133,6 +133,7 @@ fHK_B = 0.999
 fLK_D = 0.999
 N_min_big = log((fLK_D/(1-fLK_D))*(fHK_B/(1-fHK_B)))/log(RelVol(3))
 
+N_min = N_min_small;
 % --------------------
 
 % CALCULATE THEORETICAL AND REAL NUMBER OF STAGES
@@ -144,7 +145,7 @@ N_min_big = log((fLK_D/(1-fLK_D))*(fHK_B/(1-fHK_B)))/log(RelVol(3))
 % Function that calculates N_theory values for r_min to 1
 % uses the Gilliland design method equation (eqn 4.56)
 % also outputs a plot of (N-N_min)/(N+1) vs (r-r_min)/(r+1)
-[ N_theory_array, r_array ] = Ntheory_func( r_min, N_min );
+[ N_theory_array, r_array, N_theory ] = Ntheory_func( r_min, N_min, r );
 
 N_real_est = 2.*N_theory;
 
