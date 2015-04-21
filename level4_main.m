@@ -124,9 +124,15 @@ s = (D/B)*(r+q)-(1-q); % (eqn 3.35)
 %%
 %%
 % CALCULATE MINIMUM NUMBER OF STAGES
-% use Fenske equation
-% --------------------
-N_min = log((zD(i)/zD(j))*(zB(1i)/zB(i)))/log(RelVol(i,j)); % (eqn 4.15)
+% use Fenske equation(eqn 4.16)
+fHK_B = 0.995
+fLK_D = 0.995
+N_min_small = log((fLK_D/(1-fLK_D))*(fHK_B/(1-fHK_B)))/log(RelVol(3))
+
+fHK_B = 0.999
+fLK_D = 0.999
+N_min_big = log((fLK_D/(1-fLK_D))*(fHK_B/(1-fHK_B)))/log(RelVol(3))
+
 % --------------------
 
 % CALCULATE THEORETICAL AND REAL NUMBER OF STAGES
