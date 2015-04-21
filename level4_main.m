@@ -39,16 +39,12 @@ MW_Me = 16.04;
 %%
 % SPECIFY THESE TERMS
 % --------------------
-F % feed molar flowrate [mol/hr]
+F = 204; % feed molar flowrate [mol/hr]
 q = 1; % fraction of feed that is liquid
-z_F % composition across all phases
+z_F = [0.25 0.56 0.07 0.12 0 0 0 0]; % composition across all phases
 T % temperature in K
 P % pressure in bar
 
-% The species in distillate and bottoms
-% 1 = species present ; 0 = species not present
-species_D = [1 1 1 0 0 0 0 0]; 
-species_B = [0 0 0 0 1 1 1 0];
 % --------------------
 %%
 
