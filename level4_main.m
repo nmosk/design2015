@@ -145,9 +145,9 @@ N_min = N_min_small;
 % Function that calculates N_theory values for r_min to 1
 % uses the Gilliland design method equation (eqn 4.56)
 % also outputs a plot of (N-N_min)/(N+1) vs (r-r_min)/(r+1)
-[ N_theory_array, r_array, N_theory ] = Ntheory_func( r_min, N_min, r );
-
-N_real_est = 2.*N_theory
+% [ N_theory_array, r_array, N_theory ] = Ntheory_func( r_min, N_min, r );
+[ N_theory ] = Ntheory_func( r_min, N_min, r );
+N_real_est = 2.*double(N_theory)
 
 % % O'CONNELL CORRELATION p. 260 (eqn 6.2)
 % a = 0.24; 
