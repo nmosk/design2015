@@ -50,9 +50,6 @@ P % pressure in bar
 species_D = [1 1 1 0 0 0 0 0]; 
 species_B = [0 0 0 0 1 1 1 0];
 % --------------------
-V % vapor rate
-zB
-zD
 %%
 
 % CALCULATE D and B
@@ -63,7 +60,7 @@ zD
 D = F.*((zF(i)-zB(i))/(zD(i)-zB(i))); % (eqn 4.6) [mol/hr]
 B = F.*((zD(i)-zF(i))/(zD(i)-zB(i))); % (eqn 4.7) [mol/hr]
 % --------------------
-
+%%
 % CALCULATE MINIMUM REFLUX AND REFLUX
 % use Doherty's book, chapter 4 for pseudo 4-composition mixture if >4
 % species
@@ -73,7 +70,7 @@ B = F.*((zD(i)-zF(i))/(zD(i)-zB(i))); % (eqn 4.7) [mol/hr]
 % assuming that volatility is constant
 % alpha = (y_LK/x_LK) / (y_HK/x_HK) = K_LK/K_HK
 
-    function [RelVol] = RelVol_func(T); % where St is the reference component
+    [RelVol] = RelVol_func(T); % where St is the reference component
     % for an AB/CD split, A = LK and C = HK
     % T is the LK and eB is the HK
     % where A=1 , B=2, C=3, D=4, etc
@@ -81,7 +78,7 @@ B = F.*((zD(i)-zF(i))/(zD(i)-zB(i))); % (eqn 4.7) [mol/hr]
     RelVol = [# # # 1]; % relative volatilities [A B C D] 
     % where D=1 since St is the reference component
 
-r_min = ( (alpha(3)*x(1)/ (alpha(1)-alpha(3))) + ((alpha(3)*(x(2)+x(3)))/(alpha(2)-alpha(3))) ) / ((x(1)+x(2)) * (1+(x(1)*(x(3)+x(4)))))% minimum reflux for an AB/CD split
+r_min = ( (RelVol(3)*x(1)/ (RelVol(1)-RelVol(3))) + ((RelVol(3)*(x(2)+x(3)))/(RelVol(2)-RelVol(3))) ) / ((x(1)+x(2)) * (1+(x(1)*(x(3)+x(4)))))% minimum reflux for an AB/CD split
 
     % FOR BINARY -
     % % alpha = (y_i/x_i) / (y_j/x_j) = K_i/K_j
@@ -101,34 +98,51 @@ r = r_min*1.5;
 s = (D/B)*(r+q)-(1-q); % (eqn 3.35)
 
 %%
-
+%%
 % CALCULATE MINIMUM NUMBER OF STAGES
 % use Fenske equation
 % --------------------
-N_min = log((zD(i)/zD(j))*(zB(j)/zB(i)))/log(alpha(i,j)); % (eqn 4.15)
+N_min = log((zD(i)/zD(j))*(zB(1i)/zB(i)))/log(RelVol(i,j)); % (eqn 4.15)
 % --------------------
 
 % CALCULATE THEORETICAL AND REAL NUMBER OF STAGES
 % use FUG method (p. 136)
 % --------------------
-N_theory
-N_real = 2*N_theory;
-% --------------------
 
+% calculating N theoretical
+
+% Function that calculates N_theory values for r_min to 1
+% uses the Gilliland design method equation (eqn 4.56)
+% also outputs a plot of (N-N_min)/(N+1) vs (r-r_min)/(r+1)
+[ N_theory_array, r_array ] = Untitled2( r_min, N_min );
+
+N_real_est = 2.*N_theory;
+
+% O'CONNELL CORRELATION p. 260 (eqn 6.2)
+a = 0.24; 
+mu % viscosity of the liquid mixture at the feed composition evaluated at Tavg and Pavg in column
+alpha % volatility between the key components evaluated at Tavg and Pavg in column
+% The relative volatility is determined for the 2 key components at average column conditions
+mu_0 = 10^-3 % [Pa*s] aka (1 centipoise)
+N_real = N_theory./(exp(-sqrt(alpha*mu/mu_0))*(1-a_param)+a)^-1 % (eqn 6.2)
+% --------------------
+%%
 % CALCULATE VAPOR RATES [mol/hr] IN COLUMN
 % --------------------
+% ****************> these need to equal each other if q = 1 !!!!!!!!!
 v_B = s*B; % in bottoms
 v_T = (r+1)*D; % in tops
 
 % CROSS-CHECK: v_B-v_T = (q-1)*F (eqn 3.39)
 %              when q = 1, v_B = v_T = V
+V=v_B;
 % --------------------
-
-% CALCULATE HEAD LOADS (saturated liquid products)
+%%
+% CALCULATE HEAT LOADS (saturated liquid products)
 % lambda is the latent heat of vaporization
 % estimate by taking an arithmatic average
 % --------------------
-[ lambda_D, lambda_B ] = HeatVap_func(x_D,x_B)
+[ lambda_D, lambda_B ] = HeatVap_func(x_D,x_B);
 
 Q_c = lambda_D*v_T; % [J/hr]
 Q_r = lambda_B*v_B; % [J/hr]
@@ -158,7 +172,9 @@ Q_r = lambda_B*v_B; % [J/hr]
 %   smaller or larger for some columns
     height_theory = 0.5   % spacing between trays [m]
 
-        M_v % molecular weight of the vapor
+        
+    
+        M_v % molecular weight of the vapor     
         M_l % molecular weight of the liquid
         c_o = 439; % [m/h] % from (table 6.1)
         height_column_min = 3*height_theory;
@@ -176,12 +192,24 @@ diameter_column = 2*sqrt(area_column/pi); % [m]
 % --------------------
 
 %%
+%comment
 
 % CALCULATE HEAT EXCHANGER AREAS
 % see (table 6.2) for U
 % --------------------
+% U is from (table 6.2) from Doherty's text
+U = ;
 % changeT_A is the temperature difference between the two streams at end A,
 % and changeT_B is the temperature difference between 
-LMTD = 
-A = Q/(U*LMTD);
+LMTD = ((TA-tB)-(TB-tA))/log((TA-tB)/(TB-tA));
+Q = Q_r+Q_c; % **** is this correct?
+
+A = Q/(U*LMTD); % **** check units of everything
 % --------------------
+
+
+% ********** need to
+%       1) write function to calculate molar weights and rhos of liquids
+%       and vapors
+%       2) how to calculate N_theory -- needs alpha and mu
+%       3) need z_F, z_B, z_D, molar compositions of feed
