@@ -52,32 +52,17 @@ species_B = [0 1 0 0 0 0 0 0];
 
 F_D = F.*zF.*species_D;
 F_B = F.*zF.*species_B;
-D = sum(F_D); B = sum(F_B);
-x_D = F_D./D; x_B = F_B/B; 
+D = sum(F_D)
+B = sum(F_B)
+x_D = F_D./D
+x_B = F_B./B
+
 
 % Checks that D+B = F
 if D+B > 5+F | D+B < F-5
     disp('D+B does not equal F')
 else
     disp('D+B equals F -- CHECK 1')
-end
-
-% --------------------
-%%
-
-% CALCULATE D and B
-% F = D + B
-% basis of 100% recovery of LK in distillate and 100% recovery of JK in
-% bottoms
-% --------------------
-D = F.*sum((zF-xB)/(xD-xB)); % (eqn 4.6) [mol/hr]
-B = F.*sum((xD-zF)/(xD-xB)); % (eqn 4.7) [mol/hr]
-
-% Checks that D+B = F
-if D+B > 5+F | D+B < F-5
-    disp('D+B does not equal F')
-else
-    disp('D+B equals F -- CHECK 2')
 end
 
 % --------------------
@@ -96,7 +81,7 @@ end
     % T is the LK and eB is the HK
     % where A=1 , B=2, C=3, D=4, etc
     % where A=Toluene , B=Benzene, C=Ethylbenzene, D=Styrene
-    RelVol = [# # # 1]; % relative volatilities [A B C D] 
+ %   RelVol = [# # # 1]; % relative volatilities [A B C D] 
     % where D=1 since St is the reference component
 
 r_min = ( (RelVol(3)*x(1)/ (RelVol(1)-RelVol(3))) + ((RelVol(3)*(x(2)+x(3)))/(RelVol(2)-RelVol(3))) ) / ((x(1)+x(2)) * (1+(x(1)*(x(3)+x(4)))))% minimum reflux for an AB/CD split
@@ -219,7 +204,7 @@ diameter_column = 2*sqrt(area_column/pi); % [m]
 % see (table 6.2) for U
 % --------------------
 % U is from (table 6.2) from Doherty's text
-U = ;
+U = 0;
 % changeT_A is the temperature difference between the two streams at end A,
 % and changeT_B is the temperature difference between 
 LMTD = ((TA-tB)-(TB-tA))/log((TA-tB)/(TB-tA));
