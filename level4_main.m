@@ -17,7 +17,7 @@ rho_eN = 1.153;
 rho_T = 0.865;
 rho_Me = .0006672;
 rho_H20 = 1;
-        MW = [rho_eB rho_St rho_B rho_T rho_eN rho_H2 rho_Me rho_H20]; %[g/mL]
+        rho = [rho_eB rho_St rho_B rho_T rho_eN rho_H2 rho_Me rho_H20]; %[g/mL]
 % -------------------------------------------------------
 % -------------------------------------------------------
 
@@ -201,11 +201,11 @@ Q_r = lambda_B*v_B % [J/hr]
 %%
 
 % CALCULATE COLUMN DIMENSIONS
-% height with (eqn. 6.13)
+%   height_theory is approximately 30 to 60 cm (12 to 24 inches) but can be
+%   smaller or larger for some columns
+    
 % diameter with (eqn. 6.12)
-% --------------------
-
-
+% -------------------
 % CALCULATING HEIGHT
 % --------------------------------------------
 %             (TABLE 6.1)    TRAY SPACING
@@ -218,31 +218,25 @@ Q_r = lambda_B*v_B % [J/hr]
 % c2           1.0         1.1         1.2
 % --------------------------------------------
 
-%   height_theory is approximately 30 to 60 cm (12 to 24 inches) but can be
-%   smaller or larger for some columns
-    height_theory = 0.5   % spacing between trays [m]
-
+        height_tray = 0.5;   % spacing between trays [m]
         
-    
         M_v = x_D(1)*MW_eB + x_D(3)*MW_B + x_D(4)*MW_T % molecular weight of the vapor     
         M_l = MW_St % molecular weight of the liquid
         
         
         c_o = 439; % [m/h] % from (table 6.1)
-        height_column_min = 3*height_theory;
-    
-    height_column = height_column_min+(height_theory*N_real); % (eqn. 6.13) *** question: N_theory or N_real?
+        height_column_min = 3*height_tray;
+    height_column = height_column_min+(height_tray*N_real) % (eqn. 6.13) *** question: N_theory or N_real?
 
 % CALCULATING DIAMETER
         A_An_ratio = 0.8; % A_n/A is the fraction of the total area available for flow
         flood_frac = 0.6; % fraction of flooding velocity desired in the design
         
-        
         rho_l = 901% mass density of liquid
-        rho_v % mass density of vapor
+        rho_v = M_v * P / T / R % mass density of vapor
         
 area_column = M_v/sqrt(rho_l*rho_v)/(flood_frac)*(A_An_ratio)*V; % [m^2]
-diameter_column = 2*sqrt(area_column/pi); % [m]
+diameter_column = 2*sqrt(area_column/pi) % [m]
 % --------------------
 
 %%
@@ -254,8 +248,16 @@ diameter_column = 2*sqrt(area_column/pi); % [m]
 % U is from (table 6.2) from Doherty's text
 U = 0;
 % changeT_A is the temperature difference between the two streams at end A,
-% and changeT_B is the temperature difference between 
-LMTD = ((TA-tB)-(TB-tA))/log((TA-tB)/(TB-tA));
+% and changeT_B is the temperature difference between
+%LMTD = ((TA-tB)-(TB-tA))/log((TA-tB)/(TB-tA));
+
+Thot_in =
+Thot_out =
+Tcold_in =
+Tcold_out =
+
+LMTD = ((Thot_in - Tcold_out)-(Thot_out-Tcold_in))...
+    /log((Thot_in - Tcold_out)/(Thot_out-Tcold_in));
 Q = Q_r+Q_c; % **** is this correct?
 
 A = Q/(U*LMTD); % **** check units of everything
