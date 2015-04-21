@@ -111,7 +111,7 @@ N_min = log((zD(i)/zD(j))*(zB(1i)/zB(i)))/log(RelVol(i,j)); % (eqn 4.15)
 % Function that calculates N_theory values for r_min to 1
 % uses the Gilliland design method equation (eqn 4.56)
 % also outputs a plot of (N-N_min)/(N+1) vs (r-r_min)/(r+1)
-[ N_theory_array, r_array ] = Untitled2( r_min, N_min );
+[ N_theory_array, r_array ] = Ntheory_func( r_min, N_min );
 
 N_real_est = 2.*N_theory;
 
