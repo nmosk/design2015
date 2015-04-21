@@ -50,6 +50,23 @@ P = 1; % pressure in bar
 species_D = [1 0 1 1 0 0 0 0];
 species_B = [0 1 0 0 0 0 0 0];
 
+% HK and LK order
+% [A B C D]
+% indices of the species so that HK_LK(1) = A, HK_LK(2) = B, etc
+    % for an ABC/D split, C = LK and D = HK
+    % eB is the LK and St is the HK
+    % where A=1 , B=2, C=3, D=4, etc
+    % where A=Benzene , B=Toluene, C=Ethylbenzene, D=Styrene
+    
+ % *************************************************************************   
+ % NOTE: PLEASE SEE rmin CALCULATION SECTION TO CHANGE RELATIVE VOLATILITIES
+ %       IF DOING A DIFFERENT SPLIT
+ % *************************************************************************
+ 
+    HK_LK = [3 4 1 2]
+
+% CALCULATES D, B, xB, xD
+% --------------------
 F_D = F.*zF.*species_D;
 F_B = F.*zF.*species_B;
 D = sum(F_D)
@@ -78,14 +95,15 @@ end
 
     [RelVol] = RelVol_func(T); % where St is the reference component
     % for an AB/CD split, A = LK and C = HK
-    % T is the LK and eB is the HK
+    % for an ABC/D split, C = LK and D = HK
+    % eB is the LK and St is the HK
     % where A=1 , B=2, C=3, D=4, etc
-    % where A=Toluene , B=Benzene, C=Ethylbenzene, D=Styrene
+    % where A=Benzene , B=Toluene, C=Ethylbenzene, D=Styrene
  %   RelVol = [# # # 1]; % relative volatilities [A B C D] 
     % where D=1 since St is the reference component
 
-r_min = ( (RelVol(3)*x(1)/ (RelVol(1)-RelVol(3))) + ((RelVol(3)*(x(2)+x(3)))/(RelVol(2)-RelVol(3))) ) / ((x(1)+x(2)) * (1+(x(1)*(x(3)+x(4)))))% minimum reflux for an AB/CD split
-
+% r_min = ( (RelVol(3)*x(1)/ (RelVol(1)-RelVol(3))) + ((RelVol(3)*(x(2)+x(3)))/(RelVol(2)-RelVol(3))) ) / ((x(1)+x(2)) * (1+(x(1)*(x(3)+x(4)))))% minimum reflux for an AB/CD split
+r_min =  ((zF(HK_LK(1))*RelVol(1)) + (zF(HK_LK(2))*RelVol(2)) +((zF(HK_LK(3))+zF(HK_LK((4)))*RelVol(3))) / ((1-zF(HK_LK((4)))*(1+(zF(HK_LK((4))*(zF(HK_LK((1))+zF(HK_LK((2)))))); % minimum reflux for an ABC/D split
     % FOR BINARY -
     % % alpha = (y_i/x_i) / (y_j/x_j) = K_i/K_j
     % alpha = (y(1)/x(1)) / (y(2)/x(2)); 
