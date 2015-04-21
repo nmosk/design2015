@@ -50,9 +50,10 @@ P = 1; % pressure in bar
 species_D = [1 0 1 1 0 0 0 0];
 species_B = [0 1 0 0 0 0 0 0];
 
-xD = F.*zF.*species_D;
-xB = F.*zF.*species_B;
-D = sum(F.*xD); B = sum(F.*xB)
+F_D = F.*zF.*species_D;
+F_B = F.*zF.*species_B;
+D = sum(F_D); B = sum(F_B);
+x_D = F_D./D; x_B = F_B/B; 
 
 % Checks that D+B = F
 if D+B > 5+F | D+B < F-5
