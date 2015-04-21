@@ -147,7 +147,7 @@ N_min = N_min_small;
 % also outputs a plot of (N-N_min)/(N+1) vs (r-r_min)/(r+1)
 % [ N_theory_array, r_array, N_theory ] = Ntheory_func( r_min, N_min, r );
 [ N_theory ] = Ntheory_func( r_min, N_min, r );
-N_real_est = 2.*double(N_theory)
+N_real = 2.*double(N_theory)
 
 % % O'CONNELL CORRELATION p. 260 (eqn 6.2)
 % a = 0.24; 
@@ -166,7 +166,7 @@ v_T = (r+1)*D; % in tops
 
 % CROSS-CHECK: 
 
-if v_B-v_T == (q-1)*F %(eqn 3.39)
+if v_B-v_T < 0.001 && v_B-v_T > -.001  %(eqn 3.39)
 disp('cross check of vB = vT passed!')
 else
     disp('cross check failed')
@@ -182,8 +182,8 @@ V=v_B
 % --------------------
 [ lambda_D, lambda_B ] = HeatVap_func(x_D,x_B);
 
-Q_c = lambda_D*v_T; % [J/hr]
-Q_r = lambda_B*v_B; % [J/hr]
+Q_c = lambda_D*v_T % [J/hr]
+Q_r = lambda_B*v_B % [J/hr]
 % --------------------
 
 %%
@@ -212,8 +212,10 @@ Q_r = lambda_B*v_B; % [J/hr]
 
         
     
-        M_v % molecular weight of the vapor     
-        M_l % molecular weight of the liquid
+        M_v = x_D(1)*MW_eB + x_D(3)*MW_B + x_D(4)*MW_T % molecular weight of the vapor     
+        M_l = MW_St % molecular weight of the liquid
+        
+        
         c_o = 439; % [m/h] % from (table 6.1)
         height_column_min = 3*height_theory;
     
@@ -222,7 +224,9 @@ Q_r = lambda_B*v_B; % [J/hr]
 % CALCULATING DIAMETER
         A_An_ratio = 0.8; % A_n/A is the fraction of the total area available for flow
         flood_frac = 0.6; % fraction of flooding velocity desired in the design
-        rho_l % mass density of liquid
+        
+        
+        rho_l = 901% mass density of liquid
         rho_v % mass density of vapor
         
 area_column = M_v/sqrt(rho_l*rho_v)/(flood_frac)*(A_An_ratio)*V; % [m^2]
