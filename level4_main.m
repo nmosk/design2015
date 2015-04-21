@@ -45,7 +45,22 @@ zF = [0.25 0.56 0.07 0.12 0 0 0 0]; % composition across all phases
 T = 303; % temperature in K
 P = 1; % pressure in bar
 
-xB = [0 1 0 0 0 0 0 0];
+% the species in the distillate and bottoms
+% put a 1 if the species is in, put a 0 if it is not
+species_D = [1 0 1 1 0 0 0 0];
+species_B = [0 1 0 0 0 0 0 0];
+
+xD = F.*zF.*species_D;
+xB = F.*zF.*species_B;
+D = sum(F.*xD); B = sum(F.*xB)
+
+% Checks that D+B = F
+if D+B > 5+F | D+B < F-5
+    disp('D+B does not equal F')
+else
+    disp('D+B equals F -- CHECK 1')
+end
+
 % --------------------
 %%
 
@@ -54,8 +69,16 @@ xB = [0 1 0 0 0 0 0 0];
 % basis of 100% recovery of LK in distillate and 100% recovery of JK in
 % bottoms
 % --------------------
-D = F.*((zF(i)-xB(i))/(zD(i)-xB(i))); % (eqn 4.6) [mol/hr]
-B = F.*((zD(i)-zF(i))/(zD(i)-xB(i))); % (eqn 4.7) [mol/hr]
+D = F.*sum((zF-xB)/(zD-xB)); % (eqn 4.6) [mol/hr]
+B = F.*sum((zD-zF)/(zD-xB)); % (eqn 4.7) [mol/hr]
+
+% Checks that D+B = F
+if D+B > 5+F | D+B < F-5
+    disp('D+B does not equal F')
+else
+    disp('D+B equals F -- CHECK 2')
+end
+
 % --------------------
 %%
 % CALCULATE MINIMUM REFLUX AND REFLUX
