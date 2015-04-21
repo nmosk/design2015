@@ -45,6 +45,7 @@ zF = [0.25 0.56 0.07 0.12 0 0 0 0]; % composition across all phases
 T = 303; % temperature in K
 P = 1; % pressure in bar
 
+xB = [0 1 0 0 0 0 0 0];
 % --------------------
 %%
 
@@ -53,8 +54,8 @@ P = 1; % pressure in bar
 % basis of 100% recovery of LK in distillate and 100% recovery of JK in
 % bottoms
 % --------------------
-D = F.*((zF(i)-zB(i))/(zD(i)-zB(i))); % (eqn 4.6) [mol/hr]
-B = F.*((zD(i)-zF(i))/(zD(i)-zB(i))); % (eqn 4.7) [mol/hr]
+D = F.*((zF(i)-xB(i))/(zD(i)-xB(i))); % (eqn 4.6) [mol/hr]
+B = F.*((zD(i)-zF(i))/(zD(i)-xB(i))); % (eqn 4.7) [mol/hr]
 % --------------------
 %%
 % CALCULATE MINIMUM REFLUX AND REFLUX
