@@ -103,7 +103,7 @@ end
     % where D=1 since St is the reference component
 
 % r_min = ( (RelVol(3)*x(1)/ (RelVol(1)-RelVol(3))) + ((RelVol(3)*(x(2)+x(3)))/(RelVol(2)-RelVol(3))) ) / ((x(1)+x(2)) * (1+(x(1)*(x(3)+x(4)))))% minimum reflux for an AB/CD split
-r_min =  ((zF(HK_LK(1))*RelVol(1)) + (zF(HK_LK(2))*RelVol(2)) +((zF(HK_LK(3))+zF(HK_LK((4)))*RelVol(3)))) / ((1-zF(HK_LK((4))))*(1+(zF(HK_LK(4))*(zF(HK_LK(1))+zF(HK_LK(2)))))); % minimum reflux for an ABC/D split
+r_min =  ((zF(HK_LK(1))*RelVol(1)) + (zF(HK_LK(2))*RelVol(2)) +((zF(HK_LK(3))+zF(HK_LK((4)))*RelVol(3)))) / ((1-zF(HK_LK((4))))*(1+(zF(HK_LK(4))*(zF(HK_LK(1))+zF(HK_LK(2)))))) % minimum reflux for an ABC/D split
     % FOR BINARY -
     % % alpha = (y_i/x_i) / (y_j/x_j) = K_i/K_j
     % alpha = (y(1)/x(1)) / (y(2)/x(2)); 
@@ -114,23 +114,23 @@ r_min =  ((zF(HK_LK(1))*RelVol(1)) + (zF(HK_LK(2))*RelVol(2)) +((zF(HK_LK(3))+zF
     % % and Principles" edited by Andrzej Gorak and Eva Sorensen (eqn 4.71)
     % ------------
 
-r = r_min*1.5;
+r = r_min*1.5
 % --------------------
 
 % *** after this point, no more choice in reboiler ratio
 
-s = (D/B)*(r+q)-(1-q); % (eqn 3.35)
+s = (D/B)*(r+q)-(1-q) % (eqn 3.35)
 
 %%
 %%
 % CALCULATE MINIMUM NUMBER OF STAGES
 % use Fenske equation(eqn 4.16)
-fHK_B = 0.995
-fLK_D = 0.995
+fHK_B = 0.995;
+fLK_D = 0.995;
 N_min_small = log((fLK_D/(1-fLK_D))*(fHK_B/(1-fHK_B)))/log(RelVol(3))
 
-fHK_B = 0.999
-fLK_D = 0.999
+fHK_B = 0.999;
+fLK_D = 0.999;
 N_min_big = log((fLK_D/(1-fLK_D))*(fHK_B/(1-fHK_B)))/log(RelVol(3))
 
 % --------------------
