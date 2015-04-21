@@ -94,8 +94,8 @@ disp('Distillation info:')
 basis_molar_dist = (mole_frac_st + mole_frac_eb + mole_frac_benz + mole_frac_tol);
 moles_hr_into_distillation = basis_molar_dist* moles_out_reactor(set_x)./time
 
-dist_frac_tol = mole_frac_tol/basis_molar_dist
-dist_frac_eb = mole_frac_eb/basis_molar_dist
-dist_frac_st = mole_frac_st/basis_molar_dist
-dist_frac_benz = mole_frac_benz/basis_molar_dist
+colm_frac_tol = mole_frac_tol/basis_molar_dist
+colm_frac_eb = mole_frac_eb/basis_molar_dist
+colm_frac_st = mole_frac_st/basis_molar_dist
+colm_frac_benz = mole_frac_benz/basis_molar_dist
 
