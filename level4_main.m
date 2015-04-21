@@ -103,7 +103,7 @@ end
     % where D=1 since St is the reference component
 
 % r_min = ( (RelVol(3)*x(1)/ (RelVol(1)-RelVol(3))) + ((RelVol(3)*(x(2)+x(3)))/(RelVol(2)-RelVol(3))) ) / ((x(1)+x(2)) * (1+(x(1)*(x(3)+x(4)))))% minimum reflux for an AB/CD split
-r_min =  ((zF(HK_LK(1))*RelVol(1)) + (zF(HK_LK(2))*RelVol(2)) +((zF(HK_LK(3))+zF(HK_LK((4)))*RelVol(3))) / ((1-zF(HK_LK((4)))*(1+(zF(HK_LK((4))*(zF(HK_LK((1))+zF(HK_LK((2)))))); % minimum reflux for an ABC/D split
+r_min =  ((zF(HK_LK(1))*RelVol(1)) + (zF(HK_LK(2))*RelVol(2)) +((zF(HK_LK(3))+zF(HK_LK((4)))*RelVol(3)))) / ((1-zF(HK_LK((4))))*(1+(zF(HK_LK(4))*(zF(HK_LK(1))+zF(HK_LK(2)))))); % minimum reflux for an ABC/D split
     % FOR BINARY -
     % % alpha = (y_i/x_i) / (y_j/x_j) = K_i/K_j
     % alpha = (y(1)/x(1)) / (y(2)/x(2)); 
