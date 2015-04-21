@@ -41,7 +41,7 @@ MW_Me = 16.04;
 % --------------------
 F = 204; % feed molar flowrate [mol/hr]
 q = 1; % fraction of feed that is liquid
-z_F = [0.25 0.56 0.07 0.12 0 0 0 0]; % composition across all phases
+zF = [0.25 0.56 0.07 0.12 0 0 0 0]; % composition across all phases
 T = 303; % temperature in K
 P = 1; % pressure in bar
 
