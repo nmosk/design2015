@@ -88,4 +88,4 @@ mole_frac_water = y_w(set_x)
 mole_frac_h2 = y_h(set_x)
 mole_frac_tol = y_t(set_x)
 mole_frac_benz = y_b(set_x)
-
+moles_hr_into_distillation = (mole_frac_st + mole_frac_eb + mole_frac_benz + mole_frac_tol) * moles_out_reactor(set_x)./time
