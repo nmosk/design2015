@@ -147,15 +147,15 @@ N_min = N_min_small;
 % also outputs a plot of (N-N_min)/(N+1) vs (r-r_min)/(r+1)
 [ N_theory_array, r_array, N_theory ] = Ntheory_func( r_min, N_min, r );
 
-N_real_est = 2.*N_theory;
+N_real_est = 2.*N_theory
 
-% O'CONNELL CORRELATION p. 260 (eqn 6.2)
-a = 0.24; 
-mu % viscosity of the liquid mixture at the feed composition evaluated at Tavg and Pavg in column
-alpha % volatility between the key components evaluated at Tavg and Pavg in column
-% The relative volatility is determined for the 2 key components at average column conditions
-mu_0 = 10^-3 % [Pa*s] aka (1 centipoise)
-N_real = N_theory./(exp(-sqrt(alpha*mu/mu_0))*(1-a_param)+a)^-1 % (eqn 6.2)
+% % O'CONNELL CORRELATION p. 260 (eqn 6.2)
+% a = 0.24; 
+% mu % viscosity of the liquid mixture at the feed composition evaluated at Tavg and Pavg in column
+% alpha % volatility between the key components evaluated at Tavg and Pavg in column
+% % The relative volatility is determined for the 2 key components at average column conditions
+% mu_0 = 10^-3 % [Pa*s] aka (1 centipoise)
+% N_real = N_theory./(exp(-sqrt(alpha*mu/mu_0))*(1-a_param)+a)^-1 % (eqn 6.2)
 % --------------------
 %%
 % CALCULATE VAPOR RATES [mol/hr] IN COLUMN
@@ -164,9 +164,16 @@ N_real = N_theory./(exp(-sqrt(alpha*mu/mu_0))*(1-a_param)+a)^-1 % (eqn 6.2)
 v_B = s*B; % in bottoms
 v_T = (r+1)*D; % in tops
 
-% CROSS-CHECK: v_B-v_T = (q-1)*F (eqn 3.39)
+% CROSS-CHECK: 
+
+if v_B-v_T == (q-1)*F %(eqn 3.39)
+disp('cross check of vB = vT passed!')
+else
+    disp('cross check failed')
+    
+    
 %              when q = 1, v_B = v_T = V
-V=v_B;
+V=v_B
 % --------------------
 %%
 % CALCULATE HEAT LOADS (saturated liquid products)
