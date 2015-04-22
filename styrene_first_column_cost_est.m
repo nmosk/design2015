@@ -121,32 +121,16 @@ end
     % eB is the LK and St is the HK
     % where A=1 , B=2, C=3, D=4, etc
     % where A=Benzene , B=Toluene, C=Ethylbenzene, D=Styrene
- %   RelVol = [# # # 1]; % relative volatilities [A B C D] 
-    % where D=1 since St is the reference component
 
+ RelVol(1) = RelVol(2)*RelVol(3)*RelVol(1)
+ RelVol(2) = RelVol(2)*RelVol(3)
+    
 % minimum reflux for an AB/CD split
 % r_min = ( (RelVol(3)*zF(HK_LK(1))/ (RelVol(1)-RelVol(3))) + ((RelVol(3)*(zF(HK_LK(2))+zF(HK_LK(3))))/(RelVol(2)-RelVol(3))) ) / ((zF(HK_LK(1))+zF(HK_LK(2))) * (1+(zF(HK_LK(1))*(zF(HK_LK(3))+zF(HK_LK(4))))));
 
 % minimum reflux for an ABC/D split
-r_min =  ((zF(HK_LK(1))*RelVol(1)) + (zF(HK_LK(2))*RelVol(2)) +((zF(HK_LK(3))+zF(HK_LK((4)))*RelVol(3)))) / ((1-zF(HK_LK((4))))*(1+(zF(HK_LK(4))*(zF(HK_LK(1))+zF(HK_LK(2))))));
+r_min =  ((zF(HK_LK(1))/(RelVol(1)-1)) + (zF(HK_LK(2))/(RelVol(2)-1)) +((zF(HK_LK(3))+zF(HK_LK((4)))/(RelVol(3)-1)))) / ((1-zF(HK_LK((4))))*(1+(zF(HK_LK(4))*(zF(HK_LK(1))+zF(HK_LK(2))))));
 
-% minimum reflux for an A/BCD split
-% r_min = ((RelVol(2)*(zF(HK_LK(1))+zF(HK_LK(2))))/(zF(HK_LK(1))*(RelVol(1)-RelVol(2)))) + (RelVol(3)*zF(HK_LK(3))/(zF(HK_LK(1))*(RelVol(1)-RelVol(3)))) + (zF(HK_LK(4))/(RelVol(1)-1));
-
-% minimum reflux for an A/BC split
-% r_min = ( (RelVol(2)*(zF(HK_LK(1))+zF(HK_LK(2)))) / (zF(HK_LK(1))*(RelVol(1)-RelVol(3))) ) + ( zF(HK_LK(3)) / (zF(HK_LK(1))*(RelVol(1)-1)) );
-
-% minimum reflux for an AB/C split
-% r_min = ( ((zF(HK_LK(2))+zF(HK_LK(3)))/(RelVol(2)-1)) + (zF(HK_LK(1))/(RelVol(1)-1)) ) / ( (zF(HK_LK(1))+zF(HK_LK(2)))*(1+(zF(HK_LK(1))*zF(HK_LK(3)))) );
-
-% FOR BINARY -
-%     % alpha = (y_i/x_i) / (y_j/x_j) = K_i/K_j
-%     alpha = (y(1)/x(1)) / (y(2)/x(2)); 
-%     % where i is the more volatile component and j is the less volatile
-%     % component
-%     r_min = (alpha(1)-1)^-1 * ( (x_D/z_F)-(alpha(1)*(1-x_D)/(1-z_F)) ); %
-%     % Underwood equation for a binary mixture from "Distillation: Fundamentals
-%     % and Principles" edited by Andrzej Gorak and Eva Sorensen (eqn 4.71)
     % ------------
 
 r = r_min*1.5
