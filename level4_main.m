@@ -217,6 +217,13 @@ V=v_B
 
 
 %%
+% CALCULATE COST MODEL
+% shortcut for comparison to different split methods 
+% --------------------
+[ costs, cost_check ] = CostModel_func(N_real, V);
+% --------------------
+
+%%
 % CALCULATE HEAT LOADS (saturated liquid products)
 % lambda is the latent heat of vaporization
 % estimate by taking an arithmatic average
