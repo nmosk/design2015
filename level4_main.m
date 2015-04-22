@@ -187,12 +187,6 @@ N_real = 2.*double(N_theory)
 % N_real = N_theory./(exp(-sqrt(alpha*mu/mu_0))*(1-a_param)+a)^-1 % (eqn 6.2)
 % --------------------
 
-%%
-% CALCULATE COST MODEL
-% shortcut for comparison to different split methods 
-% --------------------
-[ costs, cost_check ] = CostModel_func(N_real, V);
-% --------------------
 
 %%
 % CALCULATE VAPOR RATES [mol/hr] IN COLUMN
@@ -212,6 +206,16 @@ end
 %              when q = 1, v_B = v_T = V
 V=v_B
 % --------------------
+
+%%
+% CALCULATE COST MODEL
+% shortcut for comparison to different split methods 
+% --------------------
+[ costs, cost_check ] = CostModel_func(N_real, V);
+% --------------------
+
+
+
 %%
 % CALCULATE HEAT LOADS (saturated liquid products)
 % lambda is the latent heat of vaporization
