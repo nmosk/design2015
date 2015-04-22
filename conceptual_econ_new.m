@@ -1,4 +1,4 @@
-function [H_E,ROI_BT, reac, V_ft, D_fact ,WC_CF ,PO_CF ,  TCI, H, D, FC,TI, SU, WC, Profit_BT, Profit_AT, C_F, Cashflow_d, Bond_Fin, D_CF, NPV_0, NPV_proj,NPV_percent,Depreciation] = conceptual_econ_V6(V, WC, EPF,X)
+function [H_E,ROI_BT, reac, V_ft, D_fact ,WC_CF ,PO_CF ,  TCI, H, D, FC,TI, SU, WC, Profit_BT, Profit_AT, C_F, Cashflow_d, Bond_Fin, D_CF, NPV_0, NPV_proj,NPV_percent,Depreciation] = conceptual_econ_new(V, WC, EP,X)
 close all
 F_m=1; F_p=1; F_c=F_m*F_p;
 FR=.04;
@@ -29,7 +29,7 @@ V_ft=35.3147.*V;
 
 % Calculates corresponding height to chosen D and 
 H=V_ft./(pi.*(D./2).^2); % [ft]
-P_BT=EPF;%_fuel; %have form EP_fuel
+P_BT=EP;%_fuel; %have form EP_fuel
 
 
 %%
@@ -58,7 +58,6 @@ NPV_0=[]; NPV_proj=[]; NPV_percent=[]; Depreciation=[]; Profit_AT=[];C_F=[];D_CF
         A_c= 2*pi*(D./2).*H+2*pi*(D./2).^2;  % area of cylinder 
         H_E= + MAS/280*101.3*A_c.^0.65 ;% purchasing cost of heat exchanger
 %        sep= (MAS./280)*4.7.*D.^1.55.*H*F_c;
-%        sep=4E6;
 sep=(5.*10.^6./X);
         PCBE=reac +H_E + sep;
         

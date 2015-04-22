@@ -44,35 +44,42 @@ y_w = flow_steam/MW_w./moles_out_reactor;
 
 
 figure(1)
-plot(xx,y_eb,xx,y_h,'-.',xx,y_b,'-..',xx,y_st,'--',xx,y_t,'-..k',xx,y_w,'LineWidth',3)
+plot(xx,y_eb,xx,y_h,'-',xx,y_b,'-',xx,y_st,'-',xx,y_t,'-k',xx,y_w,'LineWidth',3)
 legend('y_e_B','y_H_2','y_B/y_e_N','y_S_t','y_T/y_M_e','y_H_2_O')
-xlabel('conversion, x')
-ylabel('mole fraction, y')
+xlabel('Conversion, X')
+ylabel('Mole Fraction, y')
 title('from reactor to separation')
 set(gca,'FontSize',26)
+line([0.75 0.75], ylim,'Color','r','LineStyle','--','LineWidth',2);
 
 figure(2)
-plot(xx,recycle_eb./time,'LineWidth',3)
-xlabel('conversion, x')
-ylabel('recycled eb [kg/hr]')
+plot(xx,recycle_eb./time,'b','LineWidth',3)
+xlabel('Conversion, X')
+ylabel('Recycled EB [kg/hr]')
 set(gca,'FontSize',26)
+line([0.75 0.75], ylim,'Color','r','LineStyle','--','LineWidth',2);
+
 
 figure(3)
-plot(xx,flow_eb./time)
-xlabel('conversion, x')
-ylabel('Fresh feed EB, [kg/hr]')
+plot(xx,flow_eb./time,'b','LineWidth',3)
+xlabel('Conversion, X')
+ylabel('Fresh Feed EB, [kg/hr]')
 set(gca,'FontSize',26)
+line([0.75 0.75], ylim,'Color','r','LineStyle','--','LineWidth',2);
 
 figure(4)
-plot(xx,flow_out_reactor./time,'LineWidth',3)
-xlabel('conversion, x')
-ylabel('Flow to separation [kg/hr]')
+plot(xx,flow_out_reactor./time,'b','LineWidth',3)
+xlabel('Conversion, X')
+ylabel('Flow to Separation [kg/hr]')
+set(gca,'FontSize',26)
+line([0.75 0.75], ylim,'Color','r','LineStyle','--','LineWidth',2);
 
 figure(5)
-plot(xx,(flow_eb+recycle_eb+flow_steam)./time,'LineWidth',3)
-xlabel('conversion, x')
-ylabel('Feed to reactor [kg/hr]')
+plot(xx,(flow_eb+recycle_eb+flow_steam)./time,'b','LineWidth',3)
+xlabel('Conversion, X')
+ylabel('Feed to Reactor [kg/hr]')
 set(gca,'FontSize',26)
+line([0.75 0.75], ylim,'Color','r','LineStyle','--','LineWidth',2);
 
 set_x = 75
 
