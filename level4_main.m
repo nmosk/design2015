@@ -297,7 +297,10 @@ U = 0;
 %     /log((Thot_in - Tcold_out)/(Thot_out-Tcold_in));
 % Q = Q_r+Q_c; % **** is this correct?
 % 
-% A = Q/(U*LMTD); % **** check units of everything
+% A = Q/(U*LMTD); % **** check units of everything EVENTUALLY PUT IN METERS
+% TO BE CONSISTANT WITH COSTING FUNCTION BELOW
+
+% [ installed_cost_column, purchased_cost_heatex, installed_cost_heatex ] = EquipCosts_func( height_column, diameter column, A );
 % --------------------
 
 
