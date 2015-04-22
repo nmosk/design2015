@@ -256,7 +256,8 @@ D = sum(F_D)
 B = sum(F_B)
 x_D = F_D./D;
 x_B = F_B./B;
-new_F = F_D + F_B;
+new_F = D + B;
+xF = (F_D + F_B)./new_F;
 
 % Checks that D+B = F
 if D+B > 5+new_F | D+B < new_F-5
@@ -294,7 +295,7 @@ end
 % r_min = ((RelVol(2)*(zF(HK_LK(1))+zF(HK_LK(2))))/(zF(HK_LK(1))*(RelVol(1)-RelVol(2)))) + (RelVol(3)*zF(HK_LK(3))/(zF(HK_LK(1))*(RelVol(1)-RelVol(3)))) + (zF(HK_LK(4))/(RelVol(1)-1));
 
 % minimum reflux for an A/BC split
- r_min = ( (RelVol(2)*(zF(HK_LK(1))+zF(HK_LK(2)))) / (zF(HK_LK(1))*(RelVol(1)-RelVol(3))) ) + ( zF(HK_LK(3)) / (zF(HK_LK(1))*(RelVol(1)-1)) );
+ r_min = ( (RelVol(2)*(xF(HK_LK(1))+xF(HK_LK(2)))) / (xF(HK_LK(1))*(RelVol(1)*RelVol(2)-RelVol(2))) ) + ( xF(HK_LK(3)) / (xF(HK_LK(1))*(RelVol(1)*RelVol(2)-1)) );
 
 % minimum reflux for an AB/C split
 % r_min = ( ((zF(HK_LK(2))+zF(HK_LK(3)))/(RelVol(2)-1)) + (zF(HK_LK(1))/(RelVol(1)-1)) ) / ( (zF(HK_LK(1))+zF(HK_LK(2)))*(1+(zF(HK_LK(1))*zF(HK_LK(3)))) );
@@ -420,7 +421,7 @@ B = sum(F_B)
 x_D = F_D./D;
 x_B = F_B./B;
 new_F = D + B;
-x_F = (F_D + F_B)./new_F;
+xF = (F_D + F_B)./new_F;
 
 % Checks that D+B = F
 if D+B > 5+new_F | D+B < new_F-5
@@ -467,7 +468,7 @@ end
 %FOR BINARY -
     % where i is the more volatile component and j is the less volatile
     % component
-    r_min = (RelVol(2)-1)^-1 * ((x_D(HK_LK(2))/x_F(HK_LK(2))- RelVol(2)*(1-x_D(HK_LK(2))/(1-x_F(HK_LK(2)))))); % (3.57) eqn Doherty
+    r_min = (RelVol(2)-1)^-1 * ((x_D(HK_LK(2))/xF(HK_LK(2))- RelVol(2)*(1-x_D(HK_LK(2))/(1-xF(HK_LK(2)))))); % (3.57) eqn Doherty
 
 r = r_min*1.5
 % --------------------
@@ -477,16 +478,15 @@ r = r_min*1.5
 s = (D/B)*(r+q)-(1-q); % (eqn 3.35)
 
 %%
-%%
 % CALCULATE MINIMUM NUMBER OF STAGES
 % use Fenske equation(eqn 4.16)
 fHK_B = 0.995;
 fLK_D = 0.995;
-N_min_small = log((fLK_D/(1-fLK_D))*(fHK_B/(1-fHK_B)))/log(RelVol(3));
+N_min_small = log((fLK_D/(1-fLK_D))*(fHK_B/(1-fHK_B)))/log(RelVol(2));
 
 fHK_B = 0.999;
 fLK_D = 0.999;
-N_min_big = log((fLK_D/(1-fLK_D))*(fHK_B/(1-fHK_B)))/log(RelVol(3));
+N_min_big = log((fLK_D/(1-fLK_D))*(fHK_B/(1-fHK_B)))/log(RelVol(2));
 
 N_min = N_min_small;
 % --------------------
@@ -513,8 +513,6 @@ N_real = 2.*double(N_theory)
 % N_real = N_theory./(exp(-sqrt(alpha*mu/mu_0))*(1-a_param)+a)^-1 % (eqn 6.2)
 % --------------------
 
-
-%%
 % CALCULATE VAPOR RATES [mol/hr] IN COLUMN
 % --------------------
 % ****************> these need to equal each other if q = 1 !!!!!!!!!
