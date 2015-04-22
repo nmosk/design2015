@@ -118,16 +118,29 @@ end
  %   RelVol = [# # # 1]; % relative volatilities [A B C D] 
     % where D=1 since St is the reference component
 
-% r_min = ( (RelVol(3)*x(1)/ (RelVol(1)-RelVol(3))) + ((RelVol(3)*(x(2)+x(3)))/(RelVol(2)-RelVol(3))) ) / ((x(1)+x(2)) * (1+(x(1)*(x(3)+x(4)))))% minimum reflux for an AB/CD split
-r_min =  ((zF(HK_LK(1))*RelVol(1)) + (zF(HK_LK(2))*RelVol(2)) +((zF(HK_LK(3))+zF(HK_LK((4)))*RelVol(3)))) / ((1-zF(HK_LK((4))))*(1+(zF(HK_LK(4))*(zF(HK_LK(1))+zF(HK_LK(2)))))) % minimum reflux for an ABC/D split
-    % FOR BINARY -
-    % % alpha = (y_i/x_i) / (y_j/x_j) = K_i/K_j
-    % alpha = (y(1)/x(1)) / (y(2)/x(2)); 
-    % % where i is the more volatile component and j is the less volatile
-    % % component
-    % r_min = (alpha(1)-1) * ( (x_D/x_F)-(alpha(1)*(1-x_D)/(1-x_F)) ); %
-    % % Underwood equation for a binary mixture from "Distillation: Fundamentals
-    % % and Principles" edited by Andrzej Gorak and Eva Sorensen (eqn 4.71)
+% minimum reflux for an AB/CD split
+% r_min = ( (RelVol(3)*zF(HK_LK(1))/ (RelVol(1)-RelVol(3))) + ((RelVol(3)*(zF(HK_LK(2))+zF(HK_LK(3))))/(RelVol(2)-RelVol(3))) ) / ((zF(HK_LK(1))+zF(HK_LK(2))) * (1+(zF(HK_LK(1))*(zF(HK_LK(3))+zF(HK_LK(4))))));
+
+% minimum reflux for an ABC/D split
+r_min =  ((zF(HK_LK(1))*RelVol(1)) + (zF(HK_LK(2))*RelVol(2)) +((zF(HK_LK(3))+zF(HK_LK((4)))*RelVol(3)))) / ((1-zF(HK_LK((4))))*(1+(zF(HK_LK(4))*(zF(HK_LK(1))+zF(HK_LK(2))))));
+
+% minimum reflux for an A/BCD split
+% r_min = ((RelVol(2)*(zF(HK_LK(1))+zF(HK_LK(2))))/(zF(HK_LK(1))*(RelVol(1)-RelVol(2)))) + (RelVol(3)*zF(HK_LK(3))/(zF(HK_LK(1))*(RelVol(1)-RelVol(3)))) + (zF(HK_LK(4))/(RelVol(1)-1));
+
+% minimum reflux for an A/BC split
+% r_min = ( (RelVol(2)*(zF(HK_LK(1))+zF(HK_LK(2)))) / (zF(HK_LK(1))*(RelVol(1)-RelVol(3))) ) + ( zF(HK_LK(3)) / (zF(HK_LK(1))*(RelVol(1)-1)) );
+
+% minimum reflux for an AB/C split
+% r_min = ( ((zF(HK_LK(2))+zF(HK_LK(3)))/(RelVol(2)-1)) + (zF(HK_LK(1))/(RelVol(1)-1)) ) / ( (zF(HK_LK(1))+zF(HK_LK(2)))*(1+(zF(HK_LK(1))*zF(HK_LK(3)))) );
+
+% FOR BINARY -
+    % alpha = (y_i/x_i) / (y_j/x_j) = K_i/K_j
+    alpha = (y(1)/x(1)) / (y(2)/x(2)); 
+    % where i is the more volatile component and j is the less volatile
+    % component
+    % r_min = (alpha(1)-1)^-1 * ( (x_D/z_F)-(alpha(1)*(1-x_D)/(1-z_F)) ); %
+    % Underwood equation for a binary mixture from "Distillation: Fundamentals
+    % and Principles" edited by Andrzej Gorak and Eva Sorensen (eqn 4.71)
     % ------------
 
 r = r_min*1.5
@@ -175,9 +188,11 @@ N_real = 2.*double(N_theory)
 % --------------------
 
 %%
-
-[ costs, costs_ch ] = CostModel_func(N_real, V);
-
+% CALCULATE COST MODEL
+% shortcut for comparison to different split methods 
+% --------------------
+[ costs, cost_check ] = CostModel_func(N_real, V);
+% --------------------
 
 %%
 % CALCULATE VAPOR RATES [mol/hr] IN COLUMN
