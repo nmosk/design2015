@@ -2,35 +2,70 @@ clear;
 clc;
 close all;
 
-% test
+% DESCRIPTION -------------------------------------------
+% This script is the mainbody of our PFR code. 
+% Specifically calculates selectivity vs conversion for PFR reactor
+% Then calls functions to calculate volumetric flowrates, tau, molar
+% fractions, and economic analysis
+
+% NOTE: most values are outputted in arrays
+% -------------------------------------------------------
+
+% ABBREVIATIONS of SPECIES ------------------------------
+% ethylbenzene -> eB 
+% styrene -> St 
+% benzene -> B 
+% toulene -> T 
+% ethylene -> eN 
+% hydrogen -> H2 
+% methane -> Me 
+% water-> H20
+% -------------------------------------------------------
+
 global T MR r R Peb0 Ptot
 
-T = 600+273; % kelvin
-MR = 8;   % steam/feed
-r = 1.987; % cal/mol K
-R = 8.314 * 10^-5; % m3 bar/K mol
-Ptot = 2.02;
+% Temperature of reactor
+T = 600+273; % [kelvin]
 
+% Molar Ratio
+MR = 8;   % [steam/feed]
+
+% Gas constants
+r = 1.987; % cal/mol K
+R = 8.314 * 10^-5; % [m3 bar/K mol]
+
+% Pressure of reactor
+Ptot = 2.02; % [bar]
+
+% Initial eb pressure
 Peb0 = 1/(1+MR)* Ptot ;
-Feb=6; % initial guess for our inlet
+
+% Initial guess for our inlet
+Feb=6; 
 Fsteam=Feb*MR*Ptot;
 
+% Density
 rho = Ptot/R/T;
 
+% -------------------------------------------------------
+
+%%
 global k1 kn1 k2 k3
 
-%rate constants
+% Rate constants
 k1 = 1.177 * 10^8 * exp(-21708/r/T) ;
 kn1 = 20.965 * exp(7804/r/T);
 k2 = 9.206 * 10^12 * exp(-45675/r/T) ;
 k3 = 4.724 * 10^7 * exp(-18857/r/T) ;
 
-MW_st = 104; % g/mol
-Pst = 100 * 10^6 / MW_st * 1000; % mol/yr
-hr_per_yr = 8400; %hr/yr
+MW_st = 104; % Molecular weight [g/mol]
+Pst = 100 * 10^6 / MW_st * 1000; % Product of styrene [mol/yr]
+hr_per_yr = 8400; % [hr/yr]
 s_per_hr = 3600;
 
 N = 100 ;
+
+% Concentrations of species
 Ceb = zeros(N,1);
 Cst = Ceb; % mol/m^3
 Ch2 = Ceb; % mol/m^3
@@ -38,14 +73,18 @@ Cb=Ceb;
 Ct=Ceb;
 X = Ceb;
 s = Ceb;
+
+% Flows in and out
 Fin = Ceb;
 Fin_tot = Ceb;
+
 q = Ceb;
 V = Ceb;
 
 
 Ceb(1) = (1/(1+MR)) * rho;
 
+% time constant
 delta_Tau = 0.00005;
 
 for n = 2:10000
@@ -82,32 +121,19 @@ for n = 2:10000
     s_123(n,:) = [s(n) Cb(n)./(Ceb(1) - Ceb(n)) Ct(n)./(Ceb(1) - Ceb(n))];
 end
 
+% FIGURE: SELECTIVITY VS CONVERSION
 figure
 plot(X,s)
 xlabel('Conversion, X')
 ylabel('Selectivity, S')
 title('Selectivity T = 600C, MR = 8')
 
+% FIGURE: VOLUME vs CONVERSION
 figure
 plot(X,V)
 xlabel('Conversion, X')
 ylabel('Volume, V [m^3]')
 title('volume, T = 600C, MR = 8')
-
-%  Cb=Cb(1:200:end)   ;
-%   Ceb=Ceb(1:200:end)   ;
-%     Ch2=Ch2(1:200:end) ;
-%      Cst=Cst(1:200:end) ;
-%       Ct=Ct(1:200:end)   ;
-%  Fin=Fin(1:200:end)  ;
-%   Fin_tot=Fin_tot(1:200:end)   ;
-%  q=q(1:200:end)   ;
-%
-%  s=s(1:200:end)   ;
-%   s_123=s_123(1:200:end,:)   ;
-%
-%  V=V(1:200:end)   ;
-%  X=X(1:200:end)  ;
 
 
 
