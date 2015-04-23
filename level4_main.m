@@ -81,6 +81,8 @@ species_B = [0 1 0 0 0 0 0 0];
  
     HK_LK = [3 4 1 2]
 
+    %%
+    
 % CALCULATES D, B, xB, xD
 % --------------------
 F_D = F.*zF.*species_D;
@@ -262,7 +264,7 @@ Q_r = lambda_B*v_B % [J/hr]
         
         c_o = 439; % [m/h] % from (table 6.1)
         height_column_min = 3*height_tray;
-    height_column = height_column_min+(height_tray*N_real) % (eqn. 6.13) *** question: N_theory or N_real?
+        height_column = height_column_min+(height_tray*N_real) % (eqn. 6.13) *** question: N_theory or N_real?
 
 % CALCULATING DIAMETER
         A_An_ratio = 0.8; % A_n/A is the fraction of the total area available for flow
@@ -283,24 +285,26 @@ diameter_column = 2*sqrt(area_column/pi) % [m]
 % see (table 6.2) for U
 % --------------------
 % U is from (table 6.2) from Doherty's text
-U = 0;
+U = 350;
+
 % changeT_A is the temperature difference between the two streams at end A,
 % and changeT_B is the temperature difference between
 %LMTD = ((TA-tB)-(TB-tA))/log((TA-tB)/(TB-tA));
 
-% Thot_in =
-% Thot_out =
-% Tcold_in =
-% Tcold_out =
+Thot_in =100
+Thot_out =90
+Tcold_in = 30
+Tcold_out = 90
 % 
-% LMTD = ((Thot_in - Tcold_out)-(Thot_out-Tcold_in))...
+ LMTD = ((Thot_in - Tcold_out)-(Thot_out-Tcold_in))...
 %     /log((Thot_in - Tcold_out)/(Thot_out-Tcold_in));
-% Q = Q_r+Q_c; % **** is this correct?
-% 
-% A = Q/(U*LMTD); % **** check units of everything EVENTUALLY PUT IN METERS
+ Q = Q_r+Q_c; % **** is this correct?
+LMTD = 70
+A = Q/(U*LMTD)/3600; % **** check units of everything EVENTUALLY PUT IN METERS
+
 % TO BE CONSISTANT WITH COSTING FUNCTION BELOW
 
-% [ installed_cost_column, purchased_cost_heatex, installed_cost_heatex ] = EquipCosts_func( height_column, diameter column, A );
+ [ installed_cost_column, purchased_cost_heatex, installed_cost_heatex ] = EquipCosts_func( height_column, diameter_column, A );
 % --------------------
 
 

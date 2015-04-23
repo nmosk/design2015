@@ -1,4 +1,4 @@
-function [ installed_cost_column, purchased_cost_heatex, installed_cost_heatex ] = EquipCosts_func( height_column, diameter column, A )
+function [ installed_cost_column, purchased_cost_heatex, installed_cost_heatex ] = EquipCosts_func( height_column, diameter_column, A )
 %UNTITLED3 Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -12,11 +12,11 @@ function [ installed_cost_column, purchased_cost_heatex, installed_cost_heatex ]
     F_m = 1.7;  % for stainless steel
     F_c = F_s+F_t+F_m;
     
-    H = height_column*3.28; % height of column in [ft]
-    D = diameter_column*3.28; % diameter of column in [ft]
+    He = height_column*3.28; % height of column in [ft]
+    Di = diameter_column*3.28; % diameter of column in [ft]
     MAS = 1600; 
     
-installed_cost_column = (MAS/280) * 4.7 * D^1.55*H*F_c;
+installed_cost_column = (MAS/280) * 4.7 * Di^1.55*He*F_c;
 % --------------------
 %%
 % PURCHASED AND INSTALLED COST OF HEAT EXCHANGER

@@ -92,7 +92,7 @@ EP=zeros(length(s_123),1);
 
     EP = (price_st*P_st - (n_st*MW_eb./s_123(:,1)).*price_eb - (MR*n_st*MW(8)*price_water) +(n_st*MW_en*s_123(:,2)./s_123(:,1)).*price_en ...
         + (n_st*MW_b*s_123(:,2)./s_123(:,1)).*price_b + (n_st*MW_t)*(s_123(:,3))./s_123(:,1)*price_t ...
-        + (n_st*MW_me)*(s_123(:,3))./s_123(:,1)*fuel_me + (n_st*MW_h)*(1-s_123(:,2))./s_123(:,1).*price_h-(5.*10.^5./X));
+        + (n_st*MW_me)*(s_123(:,3))./s_123(:,1)*fuel_me + (n_st*MW_h)*(1-s_123(:,2))./s_123(:,1).*price_h);
     
 % FIGURE 1: EP vs s_123
 % Plots economic potential versus selectivity of styrene (s_123(:,1))
@@ -138,7 +138,7 @@ set(gca,'FontSize',26)
         + (n_st*MW_b*s_123(:,2)./s_123(:,1)).*fuel_b + (n_st*MW_t)*(s_123(:,3))./s_123(:,1)*fuel_t ...
         + (n_st*MW_me)*(s_123(:,3))./s_123(:,1)*fuel_me + (n_st*MW_h)*(1-s_123(:,2))./s_123(:,1).*fuel_h)- (MR*n_st*MW(8)*price_water)+(n_st*MW_en*s_123(:,2)./s_123(:,1)).*fuel_en ;
    
-    EPF= value_sty - cost_eb + value_by -(5.*10.^5./X);
+    EPF= value_sty - cost_eb + value_by ;
     
     % Working Capital for 2 months
     WC= ((n_st*MW_eb./s_123(:,1)).*price_eb - (MR*n_st*MW(8)*price_water))/12*2 ; % cost for 2 months

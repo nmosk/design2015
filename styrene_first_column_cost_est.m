@@ -198,7 +198,7 @@ V=v_B
 % CALCULATE COST MODEL
 % shortcut for comparison to different split methods 
 % --------------------
-[ cost_BTE_S_split, cost_check ] = CostModel_func(N_real, V)
+[ cost_BTE_S_split, cost_check1 ] = CostModel_func(N_real, V)
 % --------------------
 %% Begin second column B/TE
 disp('Column 2, B/TE:')
@@ -522,8 +522,9 @@ V=v_B
 [ cost_T_E_split, cost_check3 ] = CostModel_func(N_real, V)
 % --------------------
 
-total_cost = cost_BTE_S_split + cost_B_TE_split + cost_T_E_split
-
+% total_cost = cost_BTE_S_split + cost_B_TE_split + cost_T_E_split
+% Cost estimation of all columns
+total_cost = cost_check1(1) + cost_check2(1) + cost_check3(1)
 
 %%
 

@@ -133,12 +133,12 @@ NPV_0=[]; NPV_proj=[]; NPV_percent=[]; Depreciation=[]; Profit_AT=[];C_F=[];D_CF
         H_E= + MAS/280*101.3*A_c.^0.65 ;% purchasing cost of heat exchanger
 
         % Separation cost model
-        sep=(5.*10.^6./X);
-        PCBE=reac +H_E + sep;
+        sep=3.63e6 ;
+        PCBE=reac +H_E + 6.36e3 + 3.3e3 + sep;
         
         
         %Finding SU "Startup Cost"
-        ISBL=PCBE.*(F_c+IF); %Installation cost
+        ISBL=PCBE.*(F_c+IF) + 3.65e3 + 3.63e6 + 5.75e3; %Installation cost
         
         % Fixed capital
         FC=2.28*ISBL ;

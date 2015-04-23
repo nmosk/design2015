@@ -98,8 +98,9 @@ for n = 2:10000
     % calculating conversion of eB
     X(n) = (Ceb(1) - Ceb(n))./Ceb(1);
     % calculating selectivity of styrene
-    s(n) = Cst(n)./(Ceb(1) - Ceb(n));
-    
+    s(n,1) = Cst(n)./(Ceb(1) - Ceb(n));
+    sb(n,1)= Cb(n)./ (Ceb(1) - Ceb(n));
+    st(n,1)= Ct(n)./ (Ceb(1) - Ceb(n));
     % inlet flowrate
     Fin(n) = Pst./X(n)./s(n) / hr_per_yr;   % mol/hr
     
@@ -118,9 +119,9 @@ for n = 2:10000
     % selectivity of rxn 2 -> 2 (benzene and ethylene)
     % selectivity of rxn 3 -> 3 (toluene and methane)
     
-    s_123(n,:) = [s(n) Cb(n)./(Ceb(1) - Ceb(n)) Ct(n)./(Ceb(1) - Ceb(n))];
+    
 end
-
+s_123 = [s sb st];
 % FIGURE: SELECTIVITY VS CONVERSION
 figure
 plot(X,s)
@@ -204,7 +205,7 @@ plot(X,NPV_proj,'g-',X,TCI,'b-','LineWidth',3);
 legend('Net Present Value','Total Capital Investment') % label left y-axis
 ylabel('Dollars [$]')
 xlabel('Conversion, X','FontSize',26)
-axis([0.4 0.9 0 1*10^8])
+axis([0.4 0.9 0 5*10^7])
 set(gca,'FontSize',26)
 line([0.75 0.75], ylim,'Color','r','LineStyle','--','LineWidth',2);
 
