@@ -205,7 +205,7 @@ plot(X,NPV_proj,'g-',X,TCI,'b-','LineWidth',3);
 legend('Net Present Value','Total Capital Investment') % label left y-axis
 ylabel('Dollars [$]')
 xlabel('Conversion, X','FontSize',26)
-axis([0.4 0.9 0 5*10^7])
+axis([0 0.9 0 10*10^7])
 set(gca,'FontSize',26)
 line([0.75 0.75], ylim,'Color','r','LineStyle','--','LineWidth',2);
 
@@ -220,14 +220,14 @@ plot(X,NPV_percent,'g-',X,ROI_BT*100,'b-','LineWidth',3);
 ylabel('Percent per Year [%/yr]')
 legend('Net Present Value' ,'Return on Investment') % label left y-axis
 xlabel('Conversion, X','FontSize',26)
-axis([0 0.9 0 40])
+axis([0 0.9 0 35])
 set(gca,'FontSize',26)
 line([0.75 0.75], ylim,'Color','r','LineStyle','--','LineWidth',2);
 
 
 figure
 	plot(s,EP,'b-','LineWidth',2)
-        axis([0.4732 1 0 3*10^7])
+        axis([0 1 0 10*10^7])
         ylabel('EP  [$/yr]','FontSize',26)
         xlabel('Selectivity, S','FontSize',26)
         line([0.75 0.75], ylim,'Color','r','LineStyle','--','LineWidth',2);

@@ -55,16 +55,33 @@ rho_H20 = 1;
 %%
 % SPECIFY THESE TERMS
 % --------------------
-F = 204; % feed molar flowrate [mol/hr]
+% F = 204; % feed molar flowrate [mol/hr]
+ F = 90 ; % feed of second distillation column
+% F= 77 ; % feed of 3rd distil. 
+
 q = 1; % fraction of feed that is liquid
-zF = [0.25 0.56 0.07 0.12 0 0 0 0]; % composition across all phases
-T = 303; % temperature in K
+
+% zF = [0.25 0.56 0.06 0.12 0 0 0 0]; % composition across all phases
+ zF= [.58 0 .14 .27 0 0 0 0]; % composition for 2nd distil. 
+% zF= [0.68 0 0 0.31 0 0 0 0] ; % comp for 3rd distil. 
+
+% T = 100 + 273 ; % temperature in K
+ T = 81  + 273 ; % temp of 2nd distill column
+% T = 131 + 273 ; % temp of 3rd distill column
+
 P = 1; % pressure in bar
+
 
 % the species in the distillate and bottoms
 % put a 1 if the species is in, put a 0 if it is not
-species_D = [1 0 1 1 0 0 0 0];
-species_B = [0 1 0 0 0 0 0 0];
+% species_D = [1 0 1 1 0 0 0 0]; % column 1
+% species_B = [0 1 0 0 0 0 0 0]; % column 1
+
+species_D = [0 0 1 0 0 0 0 0]; % column 2
+species_B = [1 0 0 1 0 0 0 0]; % column 2
+
+%  species_D = [0 0 0 1 0 0 0 0]; % column 3
+%  species_B = [1 0 0 0 0 0 0 0]; % column 3
 
 % HK and LK order
 % [A B C D]
@@ -79,7 +96,9 @@ species_B = [0 1 0 0 0 0 0 0];
  %       IF DOING A DIFFERENT SPLIT
  % *************************************************************************
  
-    HK_LK = [3 4 1 2]
+   % HK_LK = [3 4 1 2]; % for column 1
+    HK_LK = [3 4 1]; % for column 2
+   % HK_LK = [4 1]; % for column 3 
 
     %%
     
@@ -123,24 +142,25 @@ end
 % minimum reflux for an AB/CD split
 % r_min = ( (RelVol(3)*zF(HK_LK(1))/ (RelVol(1)-RelVol(3))) + ((RelVol(3)*(zF(HK_LK(2))+zF(HK_LK(3))))/(RelVol(2)-RelVol(3))) ) / ((zF(HK_LK(1))+zF(HK_LK(2))) * (1+(zF(HK_LK(1))*(zF(HK_LK(3))+zF(HK_LK(4))))));
 
-% minimum reflux for an ABC/D split
-r_min =  ((zF(HK_LK(1))*RelVol(1)) + (zF(HK_LK(2))*RelVol(2)) +((zF(HK_LK(3))+zF(HK_LK((4)))*RelVol(3)))) / ((1-zF(HK_LK((4))))*(1+(zF(HK_LK(4))*(zF(HK_LK(1))+zF(HK_LK(2))))));
+% minimum reflux for an ABC/D split **
+% r_min =  ((zF(HK_LK(1))*RelVol(1)) + (zF(HK_LK(2))*RelVol(2)) +((zF(HK_LK(3))+zF(HK_LK((4)))*RelVol(3)))) / ((1-zF(HK_LK((4))))*(1+(zF(HK_LK(4))*(zF(HK_LK(1))+zF(HK_LK(2))))));
 
 % minimum reflux for an A/BCD split
 % r_min = ((RelVol(2)*(zF(HK_LK(1))+zF(HK_LK(2))))/(zF(HK_LK(1))*(RelVol(1)-RelVol(2)))) + (RelVol(3)*zF(HK_LK(3))/(zF(HK_LK(1))*(RelVol(1)-RelVol(3)))) + (zF(HK_LK(4))/(RelVol(1)-1));
 
-% minimum reflux for an A/BC split
-% r_min = ( (RelVol(2)*(zF(HK_LK(1))+zF(HK_LK(2)))) / (zF(HK_LK(1))*(RelVol(1)-RelVol(3))) ) + ( zF(HK_LK(3)) / (zF(HK_LK(1))*(RelVol(1)-1)) );
+% minimum reflux for an A/BC split ** 
+ r_min = ( (RelVol(2)*(zF(HK_LK(1))+zF(HK_LK(2)))) / (zF(HK_LK(1))*(RelVol(1)-RelVol(3))) ) + ( zF(HK_LK(3)) / (zF(HK_LK(1))*(RelVol(1)-1)) );
 
 % minimum reflux for an AB/C split
 % r_min = ( ((zF(HK_LK(2))+zF(HK_LK(3)))/(RelVol(2)-1)) + (zF(HK_LK(1))/(RelVol(1)-1)) ) / ( (zF(HK_LK(1))+zF(HK_LK(2)))*(1+(zF(HK_LK(1))*zF(HK_LK(3)))) );
 
 % FOR BINARY -
 %     % alpha = (y_i/x_i) / (y_j/x_j) = K_i/K_j
-%     alpha = (y(1)/x(1)) / (y(2)/x(2)); 
+%     alpha = (HK_LK(1)/HK_LK(1)) / (HK_LK(2)/HK_LK(2)); 
+%     alpha = 1.1034/1.172
 %     % where i is the more volatile component and j is the less volatile
 %     % component
-%     r_min = (alpha(1)-1)^-1 * ( (x_D/z_F)-(alpha(1)*(1-x_D)/(1-z_F)) ); %
+%   r_min = (alpha(1)-1)^-1 * ( (x_D/zF)-(alpha(1)*(1-x_D)/(1-zF)) ); %
 %     % Underwood equation for a binary mixture from "Distillation: Fundamentals
 %     % and Principles" edited by Andrzej Gorak and Eva Sorensen (eqn 4.71)
     % ------------

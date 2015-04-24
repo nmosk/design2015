@@ -130,15 +130,21 @@ NPV_0=[]; NPV_proj=[]; NPV_percent=[]; Depreciation=[]; Profit_AT=[];C_F=[];D_CF
         %Purchase Cost of Base Equipment
         reac= MAS./280.*101.9.*(D.^1.066).*(H.^0.82 ); % purchasing cost of reactor
         A_c= 2*pi*(D./2).*H+2*pi*(D./2).^2;  % area of cylinder 
-        H_E= + MAS/280*101.3*A_c.^0.65 ;% purchasing cost of heat exchanger
+        H_E= + MAS/280*101.3*A_c.^0.65 ;% purchasing cost of heat exchanger before separation
 
         % Separation cost model
-        sep=3.63e6 ;
-        PCBE=reac +H_E + 6.36e3 + 3.3e3 + sep;
+        sep1 = 1.9e6 ; % purchased cost of column 1
+        sep2 = 1.6e6; % purchased cost of column 2
+        sep3 = 1.6e6; % purchased cost of column 3
+        
+        PCBE=reac + H_E + 6.36e3 + 3.3e3 + sep1+ sep2 + sep3;
         
         
         %Finding SU "Startup Cost"
-        ISBL=PCBE.*(F_c+IF) + 3.65e3 + 3.63e6 + 5.75e3; %Installation cost
+        in_column1= 5.6e6; % installed cost of column 1
+        in_column2= 4.1e6; % installed cost of column 2
+        in_column3= 4.1e6; % installed cost of column 3
+        ISBL=PCBE.*(F_c+IF) + 3.65e3 + in_column1 + 5.5e3 + in_column2 + in_column3; %Installation cost
         
         % Fixed capital
         FC=2.28*ISBL ;
