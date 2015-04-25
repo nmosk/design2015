@@ -156,7 +156,18 @@ NPV_0=[]; NPV_proj=[]; NPV_percent=[]; Depreciation=[]; Profit_AT=[];C_F=[];D_CF
         ic_column2= MAS./280.*4.7.*((5.78*3.28).^1.55).*(76.4*3.28) % installed cost of column 2
         ic_column3= MAS./280.*4.7.*((4.86*3.28).^1.55).*(100*3.28) % installed cost of column 3
         
-        ISBL= PCBE.*(F_c+IF) + 3.65e3 + 5.5e3 + ic_column1  + ic_column2 + ic_column3; %Installation cost
+        reboiler1=MAS./280*.328.*(5.55*10.^4./11250).^.65.*249.5.^.65;
+        reboiler2=MAS./280*.328.*(7428./11250).^.65.*169.9.^.65;
+        reboiler3= MAS./280*.328.*(5778./11250).^.65.*116.8.^.65;
+        reboiler_tot = reboiler1 + reboiler2 + reboiler3 ;
+        
+        condenser1=MAS./280*.328.*(6058./3000*log((81-90)/(81-120))).^.65.*249.5.^.65;
+        condenser2=MAS./280*.328.*(2332./3000*log((59-90)/(59-120))).^.65.*249.5.^.65;
+        condenser3= MAS./280*.328.*(1182./3000*log((110-90)/(110-120))).^.65.*249.5.^.65;
+        condenser_tot = condenser1 + condenser2 + condenser3 ;
+        
+        
+        ISBL= PCBE.*(F_c+IF) + 3.65e3 + 5.5e3 + ic_column1  + ic_column2 + ic_column3 + reboiler_tot+ condenser_tot; %Installation cost
         
         %separ=sep1+sep2+sep3+in_column1+in_column2+in_column3
         % Fixed capital
