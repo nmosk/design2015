@@ -58,6 +58,9 @@ F_m=1;
 % Correction factor for pressure vessels: pressure
 F_p=1; 
 
+% Correction factor for distillation column
+F_s=2.2; 
+
 % Calculating construction factor F_c 
 F_c=F_m*F_p;
 
@@ -129,23 +132,33 @@ NPV_0=[]; NPV_proj=[]; NPV_percent=[]; Depreciation=[]; Profit_AT=[];C_F=[];D_CF
         
         %Purchase Cost of Base Equipment
         reac= MAS./280.*101.9.*(D.^1.066).*(H.^0.82 ); % purchasing cost of reactor
+        
         A_c= 2*pi*(D./2).*H+2*pi*(D./2).^2;  % area of cylinder 
+        
         H_E= + MAS/280*101.3*A_c.^0.65 ;% purchasing cost of heat exchanger before separation
 
-        % Separation cost model
-        sep1 = 1.9e6 ; % purchased cost of column 1
-        sep2 = 1.6e6; % purchased cost of column 2
-        sep3 = 1.6e6; % purchased cost of column 3
+    
+        pressure_pc= MAS./280.*101.9.*(D.^1.066).*(H.^0.82 )
         
-        PCBE=reac + H_E + 6.36e3 + 3.3e3 + sep1+ sep2 + sep3;
+        PC_column1=MAS./280.*101.9.*((6.26*3.28).^1.066).*((90.5*3.28).^0.82 ) % column1 height = 6.2591 m hegight = 149.4 m 
+        PC_column2=MAS./280.*101.9.*((5.78*3.28).^1.066).*((76.4*3.28).^0.82 ) % column2 height = 5.7796 m hegight = 125.85 m 
+        PC_column3=MAS./280.*101.9.*((4.86*3.28).^1.066).*((100*3.28).^0.82 ) % column2 height = 4.8623 m hegight = 164.9966 m 
+
+        PCBE = reac + H_E + pressure_pc + PC_column1 + PC_column2 + PC_column3 + 6.36e3 +3.3e3 ; 
         
         
         %Finding SU "Startup Cost"
-        in_column1= 5.6e6; % installed cost of column 1
-        in_column2= 4.1e6; % installed cost of column 2
-        in_column3= 4.1e6; % installed cost of column 3
-        ISBL=PCBE.*(F_c+IF) + 3.65e3 + in_column1 + 5.5e3 + in_column2 + in_column3; %Installation cost
+%         in_column1= 5.6e6; 
+%         in_column2= 4.1e6; 
+%         in_column3= 4.1e6; 
         
+        ic_column1= MAS./280.*4.7.*((6.26*3.28).^1.55).*(90.5*3.28) % installed cost of column 1
+        ic_column2= MAS./280.*4.7.*((5.78*3.28).^1.55).*(76.4*3.28) % installed cost of column 2
+        ic_column3= MAS./280.*4.7.*((4.86*3.28).^1.55).*(100*3.28) % installed cost of column 3
+        
+        ISBL= PCBE.*(F_c+IF) + 3.65e3 + 5.5e3 + ic_column1  + ic_column2 + ic_column3; %Installation cost
+        
+        %separ=sep1+sep2+sep3+in_column1+in_column2+in_column3
         % Fixed capital
         FC=2.28*ISBL ;
         FC=FC';
@@ -222,7 +235,7 @@ NPV_0=[]; NPV_proj=[]; NPV_percent=[]; Depreciation=[]; Profit_AT=[];C_F=[];D_CF
          C_F = Profit_AT - Depreciation;
                    
          % Discounted cash flow
-         D_CF=(repmat(D_fact,1,10000)).*C_F; % discounted cash flows
+         D_CF=(repmat(D_fact,1,length(C_F))).*C_F; % discounted cash flows
          
          % Summing discounted cash flow
          sum_D_CF=sum(D_CF);

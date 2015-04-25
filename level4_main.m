@@ -62,7 +62,7 @@ rho_H20 = 1;
 q = 1; % fraction of feed that is liquid
 
 % zF = [0.25 0.56 0.06 0.12 0 0 0 0]; % composition across all phases
- zF= [.58 0 .14 .27 0 0 0 0]; % composition for 2nd distil. 
+zF= [.58 0 .14 .27 0 0 0 0]; % composition for 2nd distil. 
 % zF= [0.68 0 0 0.31 0 0 0 0] ; % comp for 3rd distil. 
 
 % T = 100 + 273 ; % temperature in K
@@ -96,9 +96,9 @@ species_B = [1 0 0 1 0 0 0 0]; % column 2
  %       IF DOING A DIFFERENT SPLIT
  % *************************************************************************
  
-   % HK_LK = [3 4 1 2]; % for column 1
+%     HK_LK = [3 4 1 2]; % for column 1
     HK_LK = [3 4 1]; % for column 2
-   % HK_LK = [4 1]; % for column 3 
+%    HK_LK = [4 1]; % for column 3 
 
     %%
     
@@ -143,29 +143,29 @@ end
 % r_min = ( (RelVol(3)*zF(HK_LK(1))/ (RelVol(1)-RelVol(3))) + ((RelVol(3)*(zF(HK_LK(2))+zF(HK_LK(3))))/(RelVol(2)-RelVol(3))) ) / ((zF(HK_LK(1))+zF(HK_LK(2))) * (1+(zF(HK_LK(1))*(zF(HK_LK(3))+zF(HK_LK(4))))));
 
 % minimum reflux for an ABC/D split **
-% r_min =  ((zF(HK_LK(1))*RelVol(1)) + (zF(HK_LK(2))*RelVol(2)) +((zF(HK_LK(3))+zF(HK_LK((4)))*RelVol(3)))) / ((1-zF(HK_LK((4))))*(1+(zF(HK_LK(4))*(zF(HK_LK(1))+zF(HK_LK(2))))));
+%  r_min =  ((zF(HK_LK(1))*RelVol(1)) + (zF(HK_LK(2))*RelVol(2)) +((zF(HK_LK(3))+zF(HK_LK((4)))*RelVol(3)))) / ((1-zF(HK_LK((4))))*(1+(zF(HK_LK(4))*(zF(HK_LK(1))+zF(HK_LK(2))))));
 
 % minimum reflux for an A/BCD split
 % r_min = ((RelVol(2)*(zF(HK_LK(1))+zF(HK_LK(2))))/(zF(HK_LK(1))*(RelVol(1)-RelVol(2)))) + (RelVol(3)*zF(HK_LK(3))/(zF(HK_LK(1))*(RelVol(1)-RelVol(3)))) + (zF(HK_LK(4))/(RelVol(1)-1));
 
 % minimum reflux for an A/BC split ** 
- r_min = ( (RelVol(2)*(zF(HK_LK(1))+zF(HK_LK(2)))) / (zF(HK_LK(1))*(RelVol(1)-RelVol(3))) ) + ( zF(HK_LK(3)) / (zF(HK_LK(1))*(RelVol(1)-1)) );
+r_min = ( (RelVol(2)*(zF(HK_LK(1))+zF(HK_LK(2)))) / (zF(HK_LK(1))*(RelVol(1)-RelVol(3))) ) + ( zF(HK_LK(3)) / (zF(HK_LK(1))*(RelVol(1)-1)) );
 
 % minimum reflux for an AB/C split
 % r_min = ( ((zF(HK_LK(2))+zF(HK_LK(3)))/(RelVol(2)-1)) + (zF(HK_LK(1))/(RelVol(1)-1)) ) / ( (zF(HK_LK(1))+zF(HK_LK(2)))*(1+(zF(HK_LK(1))*zF(HK_LK(3)))) );
 
 % FOR BINARY -
 %     % alpha = (y_i/x_i) / (y_j/x_j) = K_i/K_j
-%     alpha = (HK_LK(1)/HK_LK(1)) / (HK_LK(2)/HK_LK(2)); 
+%    alpha = (HK_LK(1)/HK_LK(1)) / (HK_LK(2)/HK_LK(2)); 
 %     alpha = 1.1034/1.172
 %     % where i is the more volatile component and j is the less volatile
 %     % component
-%   r_min = (alpha(1)-1)^-1 * ( (x_D/zF)-(alpha(1)*(1-x_D)/(1-zF)) ); %
+%   r_min = (alpha(1)-1)^-1 .* ( (x_D/zF)-(alpha(1).*(1-x_D)/(1-zF)) ); %
 %     % Underwood equation for a binary mixture from "Distillation: Fundamentals
 %     % and Principles" edited by Andrzej Gorak and Eva Sorensen (eqn 4.71)
     % ------------
 
-r = r_min*1.5
+r = r_min*1.5 ;
 % --------------------
 
 % *** after this point, no more choice in reboiler ratio
@@ -198,7 +198,8 @@ N_min = N_min_small;
 % also outputs a plot of (N-N_min)/(N+1) vs (r-r_min)/(r+1)
 % [ N_theory_array, r_array, N_theory ] = Ntheory_func( r_min, N_min, r );
 [ N_theory ] = Ntheory_func( r_min, N_min, r );
-N_real = 2.*double(N_theory)
+N_theory_store= N_theory;
+N_real = 2.*double(N_theory);
 
 % % O'CONNELL CORRELATION p. 260 (eqn 6.2)
 % a = 0.24; 
@@ -226,7 +227,7 @@ else
 end
     
 %              when q = 1, v_B = v_T = V
-V=v_B
+V=v_B;
 % --------------------
 
 %%
@@ -252,8 +253,8 @@ V=v_B
 % --------------------
 [ lambda_D, lambda_B ] = HeatVap_func(x_D,x_B);
 
-Q_c = lambda_D*v_T % [J/hr]
-Q_r = lambda_B*v_B % [J/hr]
+Q_c = lambda_D*v_T ;% [J/hr]
+Q_r = lambda_B*v_B ;% [J/hr]
 % --------------------
 
 %%
@@ -276,26 +277,26 @@ Q_r = lambda_B*v_B % [J/hr]
 % c2           1.0         1.1         1.2
 % --------------------------------------------
 
-        height_tray = 0.5;   % spacing between trays [m]
+        height_tray = 0.3;   % spacing between trays [m]
         
-        M_v = x_D(1)*MW_eB + x_D(3)*MW_B + x_D(4)*MW_T % molecular weight of the vapor     
-        M_l = MW_St % molecular weight of the liquid
+        M_v = x_D(1)*MW_eB + x_D(3)*MW_B + x_D(4)*MW_T ; % molecular weight of the vapor     
+        M_l = MW_St ; % molecular weight of the liquid
         
         
         c_o = 439; % [m/h] % from (table 6.1)
         height_column_min = 3*height_tray;
-        height_column = height_column_min+(height_tray*N_real) % (eqn. 6.13) *** question: N_theory or N_real?
+        height_column = height_column_min+(height_tray*N_theory) ; % (eqn. 6.13) *** question: N_theory or N_real?
 
 % CALCULATING DIAMETER
         A_An_ratio = 0.8; % A_n/A is the fraction of the total area available for flow
         flood_frac = 0.6; % fraction of flooding velocity desired in the design
         
         R = 8.3145*10^-5;
-        rho_l = 901% mass density of liquid
-        rho_v = M_v * P / T / R % mass density of vapor
+        rho_l = 901 ; % mass density of liquid
+        rho_v = M_v * P / T / R ; % mass density of vapor
         
 area_column = M_v/sqrt(rho_l*rho_v)/(flood_frac)*(A_An_ratio)*V; % [m^2]
-diameter_column = 2*sqrt(area_column/pi) % [m]
+diameter_column = 2*sqrt(area_column/pi) ; % [m]
 % --------------------
 
 %%
@@ -311,10 +312,10 @@ U = 350;
 % and changeT_B is the temperature difference between
 %LMTD = ((TA-tB)-(TB-tA))/log((TA-tB)/(TB-tA));
 
-Thot_in =100
-Thot_out =90
-Tcold_in = 30
-Tcold_out = 90
+Thot_in =100 ;
+Thot_out =90 ;
+Tcold_in = 30 ;
+Tcold_out = 90 ;
 % 
  LMTD = ((Thot_in - Tcold_out)-(Thot_out-Tcold_in))...
 %     /log((Thot_in - Tcold_out)/(Thot_out-Tcold_in));

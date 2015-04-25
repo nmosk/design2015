@@ -126,39 +126,43 @@ NPV_0=[]; NPV_proj=[]; NPV_percent=[]; Depreciation=[]; Profit_AT=[];C_F=[];D_CF
          for k=2:10
              D_fact(k)=D_fact(k-1)/(1+ER); % discount factors with enterprise rate at subsequent years
          end
-         
-%for i=1:length(V)
-    %for j=1:length(D)
-        
-        %use 'i' if same value for every D in a certain V
-        %use 'j' if different value for every D in a certain V
         
         %Purchase Cost of Base Equipment
-       
         reac= MAS./280.*101.9.*(D.^1.066).*(H.^0.82 ); % purchasing cost of reactor
         A_c= 2*pi*(D./2).*H+2*pi*(D./2).^2;  % area of cylinder 
-        H_E= + MAS/280*101.3*A_c.^0.65 ;% purchasing cost of heat exchanger
+        
+        H_E= + MAS/280*101.3*A_c.^0.65 ;% purchasing cost of heat exchanger before separation
 
-        % Separation cost model
-        sep=(5.*10.^6./X);
-        PCBE=reac +H_E + sep;
+    
+        pressure_pc= MAS./280.*101.9.*(D.^1.066).*(H.^0.82 )
+        PC_column1=MAS./280.*101.9.*(D.^1.066).*(H.^0.82 )
+        
+        PCBE = reac + H_E + pressure_pc + PC_column1 ; 
         
         
         %Finding SU "Startup Cost"
-        ISBL=PCBE.*(F_c+IF); %Installation cost
+        in_column1= 5.6e6; % installed cost of column 1
+        in_column2= 4.1e6; % installed cost of column 2
+        in_column3= 4.1e6; % installed cost of column 3
         
+        ic_column1= MAS./280.*4.7.*(D.^1.55).*(H)
+        
+        ISBL=PCBE.*(F_c+IF) + 3.65e3 + in_column1 + 5.5e3 + in_column2 + in_column3; %Installation cost
+        
+        separ=sep1+sep2+sep3+in_column1+in_column2+in_column3
+        % Fixed capital
         FC=2.28*ISBL ;
         FC=FC';
-        %FC=FC(1,:)
+        
+        % Start up
         SU=0.1.*FC; 
     
-
+        % Working capital
         WC=FC.*.2;
 
-       
+        % Total investment
         TI=FC*(1+.2+.1);
 
-        %OUTPUTS
         FC_n3=FC*an3;
         FC_n2=FC*an2; 
         FC_n1=FC*an1; 
@@ -175,7 +179,9 @@ NPV_0=[]; NPV_proj=[]; NPV_percent=[]; Depreciation=[]; Profit_AT=[];C_F=[];D_CF
         Cashflow_d=Cashflow_d';
         TCI=abs(sum(Cashflow_d));
 
-        
+        %%        
+% IMPORTANT OUTPUT*********************************************************
+        % CALCULATING RETURN OF INVESTMENT BEFORE TAXES -------------------
         ROI_BT=P_BT'./TI; %percent -- make sure to look at (i,j) cell
 
         % b coefficients
@@ -185,66 +191,81 @@ NPV_0=[]; NPV_proj=[]; NPV_percent=[]; Depreciation=[]; Profit_AT=[];C_F=[];D_CF
         b_coeff=[b_1 b_2 b_3];
         
         % calcs profit before taxes for the first 3 years 
-    
+        % -----------------------------------------------------------------
+        
+% *************************************************************************       
+        
 
         Profit_BT = transpose(b_coeff)*transpose(P_BT);
         
         Profit_BT = [Profit_BT; repmat(transpose(P_BT),7,1)];
 
 
-
+        
+        % CALCULATING BOND FINANCING --------------------------------------
         Bond_Fin = -FR*TCI;
 
          %Depreciation
          Depreciation=-0.1.*FC.*(1+alphaSU); % depriciation allowed -0.1*FC*(1+alpha_Start_Up_Capital)
          %should be 10 by length(D) but all 10 rows are same value
 
-
+        % Bond financing
          Bond_Fin = repmat(Bond_Fin,10,1) ;
+         
         %Depreciation=Depreciation'
          Depreciation = repmat(Depreciation,10,1) ; 
-         
-      
         
+         % Profit after taxes
          Profit_AT = (Profit_BT + Bond_Fin + Depreciation)*(1-TR);
          
          %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
          
 
-        
-        C_F = Profit_AT - Depreciation;
+         % CALCULATING DISCOUNTED  CASH FLOW ------------------------------
+         % Cash flow
+         C_F = Profit_AT - Depreciation;
                    
-	% Discounted cash flow
-         D_CF=(repmat(D_fact,1,10000)).*C_F; % discounted cash flows
+         % Discounted cash flow
+         D_CF=(repmat(D_fact,1,length(C_F))).*C_F; % discounted cash flows
          
-     
-       
-         
-         %NPV_0
-         
-            sum_D_CF=sum(D_CF);
-         
+         % Summing discounted cash flow
+         sum_D_CF=sum(D_CF);
+         % ---------------------------------------------------------------
        %%    
+         % Alpha salvage value
          SV=FC*alphasv; %alpha salvage value
          
-         Pay_Off_TCI=-TCI; %pay off TCI
+         % Pay off TCI
+         Pay_Off_TCI=-TCI; 
          
-         Profit_AT_SV= SV*(1-TR); % profit after tax for salvage value
+         % Profit after tax for salvage value
+         Profit_AT_SV= SV*(1-TR); 
          
-         SV_CF = D_fact(end)*Profit_AT_SV; % discounted cashflow for salvage value
-         WC_CF= WC*D_fact(end);%  discounted cashflow for WC
-         PO_CF= Pay_Off_TCI*(1.00); %discounted cashflow for WC
+         % Discounted cashflow for salvage value
+         SV_CF = D_fact(end)*Profit_AT_SV; 
          
-         NPV_0=sum_D_CF+SV_CF+WC_CF+ PO_CF;
+         % Discounted cashflow for WC
+         WC_CF= WC*D_fact(end);
+         
+         % Discounted cashflow for WC
+         PO_CF= Pay_Off_TCI*(1.00); 
+         
+         
         %%
+        
         % IMPORTANT OUTPUT*********************************************************  
         
-        %NPV_proj
+         % NPV_0
+         NPV_0=sum_D_CF+SV_CF+WC_CF+ PO_CF;
+         
+         %NPV_proj
          NPV_proj=NPV_0/((1+ER)^Nconst);
          
          %NPV
          NPV_percent=(NPV_proj./TCI./(Nconst+Nop)).*100;
-        
+         
+        % *************************************************************************   
+
 
 end
 

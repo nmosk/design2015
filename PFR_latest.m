@@ -154,10 +154,10 @@ title('volume, T = 600C, MR = 8')
 % ECONOMIC ANALYSIS ---------------------------------------
 % Inputs V, WC, EP, X
 % Outputs ROI_BT, TCI, NPVs, etc
-tic
+
 [H_E,ROI_BT, reac, V_ft, D_fact, WC_CF, PO_CF , TCI, H, D, FC,TI, SU, WC, Profit_BT, Profit_AT, C_F, Cashflow_d, Bond_Fin, D_CF, NPV_0, NPV_proj,NPV_percent,Depreciation] = conceptual_econ_new(V, WC, EP,X);
 
-time=toc;
+
 % ---------------------------------------------------------
 %%
 % FIGURE 1: s vs X
@@ -231,5 +231,4 @@ figure
         ylabel('EP  [$/yr]','FontSize',26)
         xlabel('Selectivity, S','FontSize',26)
         line([0.75 0.75], ylim,'Color','r','LineStyle','--','LineWidth',2);
-
         set(gca,'FontSize',26)
