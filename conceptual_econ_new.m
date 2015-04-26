@@ -140,9 +140,9 @@ NPV_0=[]; NPV_proj=[]; NPV_percent=[]; Depreciation=[]; Profit_AT=[];C_F=[];D_CF
     
         pressure_pc= MAS./280.*101.9.*(D.^1.066).*(H.^0.82 )
         
-        PC_column1=MAS./280.*101.9.*((6.26*3.28).^1.066).*((90.5*3.28).^0.82 ) % column1 height = 6.2591 m hegight = 149.4 m 
-        PC_column2=MAS./280.*101.9.*((5.78*3.28).^1.066).*((76.4*3.28).^0.82 ) % column2 height = 5.7796 m hegight = 125.85 m 
-        PC_column3=MAS./280.*101.9.*((4.86*3.28).^1.066).*((100*3.28).^0.82 ) % column2 height = 4.8623 m hegight = 164.9966 m 
+        PC_column1=MAS./280.*101.9.*((6.26*3.28).^1.066).*((90.5*3.28).^0.82 ) % column1 width = 6.2591 m hegight = 149.4 m 
+        PC_column2=MAS./280.*101.9.*((5.78*3.28).^1.066).*((76.4*3.28).^0.82 ) % column2 width = 5.7796 m hegight = 125.85 m 
+        PC_column3=MAS./280.*101.9.*((4.86*3.28).^1.066).*((100*3.28).^0.82 ) % column2 width = 4.8623 m hegight = 164.9966 m 
 
         PCBE = reac + H_E + pressure_pc + PC_column1 + PC_column2 + PC_column3 + 6.36e3 +3.3e3 ; 
         
