@@ -93,10 +93,9 @@ EP=zeros(length(s_123),1);
         sep2 = 1.6e6; %  cost of column 2
         sep3 = 1.6e6; %  cost of column 3
 %- 6.36e3 - 3.3e3 - sep1 - sep2 - sep3
-sep_year = 0% 1*10^3.*389.52 
     EP = (price_st*P_st - (n_st*MW_eb./s_123(:,1)).*price_eb - (MR*n_st*MW(8)*price_water) + (n_st*MW_en*s_123(:,2)./s_123(:,1)).*fuel_en ...
         + (n_st*MW_b*s_123(:,2)./s_123(:,1)).*price_b + (n_st*MW_t)*(s_123(:,3))./s_123(:,1)*price_t ...
-        + (n_st*MW_me)*(s_123(:,3))./s_123(:,1)*fuel_me + (n_st*MW_h)*(1-s_123(:,2))./s_123(:,1).*price_h)-sep_year;
+        + (n_st*MW_me)*(s_123(:,3))./s_123(:,1)*fuel_me + (n_st*MW_h)*(1-s_123(:,2))./s_123(:,1).*price_h);
     
 % FIGURE 1: EP vs s_123
 % Plots economic potential versus selectivity of styrene (s_123(:,1))

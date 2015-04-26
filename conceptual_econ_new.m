@@ -44,7 +44,7 @@
 % water-> H20
 % -------------------------------------------------------
 
-function [H_E,ROI_BT, reac, V_ft, D_fact ,WC_CF ,PO_CF ,  TCI, H, D, FC,TI, SU, WC, Profit_BT, Profit_AT, C_F, Cashflow_d, Bond_Fin, D_CF, NPV_0, NPV_proj,NPV_percent,Depreciation] = conceptual_econ_new(V, WC, EP,X)
+function [Profit_AT_SV,H_E,SV,P_BT,ROI_BT, reac, V_ft, D_fact ,WC_CF ,PO_CF ,  TCI, H, D, FC,TI, SU, WC, Profit_BT, Profit_AT, C_F, Cashflow_d, Bond_Fin, D_CF, NPV_0, NPV_proj,NPV_percent,Depreciation] = conceptual_econ_new(V, WC, EP,X)
 close all
 
 % DISCOUNT CASH FLOW ANALYSIS COEFFICIENTS --------------
@@ -140,9 +140,9 @@ NPV_0=[]; NPV_proj=[]; NPV_percent=[]; Depreciation=[]; Profit_AT=[];C_F=[];D_CF
     
         pressure_pc= MAS./280.*101.9.*(D.^1.066).*(H.^0.82 )
         
-        PC_column1=MAS./280.*101.9.*((6.26*3.28).^1.066).*((90.5*3.28).^0.82 ) % column1 diameter = 6.2591 m hegight = 149.4 m 
-        PC_column2=MAS./280.*101.9.*((5.78*3.28).^1.066).*((76.4*3.28).^0.82 ) % column2 diameter = 5.7796 m hegight = 125.85 m 
-        PC_column3=MAS./280.*101.9.*((4.86*3.28).^1.066).*((100*3.28).^0.82 ) % column3 diameter = 4.8623 m hegight = 164.9966 m 
+        PC_column1=MAS./280.*101.9.*((6.26*3.28).^1.066).*((90.5*3.28).^0.82 ) % column1 diameter = 6.2591 m hegight = 90 m 
+        PC_column2=MAS./280.*101.9.*((5.78*3.28).^1.066).*((76.4*3.28).^0.82 ) % column2 diameter = 5.7796 m hegight = 76.4 m 
+        PC_column3=MAS./280.*101.9.*((4.86*3.28).^1.066).*((100*3.28).^0.82 ) % column3 diameter = 4.8623 m hegight = 100 m 
 
         PCBE = reac + H_E + pressure_pc + PC_column1 + PC_column2 + PC_column3 + 6.36e3 +3.3e3 ; 
         
@@ -260,8 +260,8 @@ NPV_0=[]; NPV_proj=[]; NPV_percent=[]; Depreciation=[]; Profit_AT=[];C_F=[];D_CF
          % ---------------------------------------------------------------
        %%    
          % Alpha salvage value
-         SV=FC*alphasv; %alpha salvage value
-         
+         SV=FC.*alphasv; %alpha salvage value
+        
          % Pay off TCI
          Pay_Off_TCI=-TCI; 
          
@@ -275,7 +275,7 @@ NPV_0=[]; NPV_proj=[]; NPV_percent=[]; Depreciation=[]; Profit_AT=[];C_F=[];D_CF
          WC_CF= WC*D_fact(end);
          
          % Discounted cashflow for WC
-         PO_CF= Pay_Off_TCI*(1.00); 
+         PO_CF= Pay_Off_TCI*D_fact(end); 
          
          
         %%

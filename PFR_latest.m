@@ -155,7 +155,7 @@ title('volume, T = 600C, MR = 8')
 % Inputs V, WC, EP, X
 % Outputs ROI_BT, TCI, NPVs, etc
 
-[H_E,ROI_BT, reac, V_ft, D_fact, WC_CF, PO_CF , TCI, H, D, FC,TI, SU, WC, Profit_BT, Profit_AT, C_F, Cashflow_d, Bond_Fin, D_CF, NPV_0, NPV_proj,NPV_percent,Depreciation] = conceptual_econ_new(V, WC, EP,X);
+[Profit_AT_SV,H_E,SV,P_BT,ROI_BT, reac, V_ft, D_fact, WC_CF, PO_CF , TCI, H, D, FC,TI, SU, WC, Profit_BT, Profit_AT, C_F, Cashflow_d, Bond_Fin, D_CF, NPV_0, NPV_proj,NPV_percent,Depreciation] = conceptual_econ_new(V, WC, EP,X);
 
 
 % ---------------------------------------------------------
